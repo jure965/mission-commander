@@ -1,3 +1,8 @@
-# from django.contrib import admin
+from django.contrib import admin
 
-# Register your models here.
+from rss.models import Torrent
+
+
+@admin.register(Torrent)
+class TorrentAdmin(admin.ModelAdmin):
+    pass
