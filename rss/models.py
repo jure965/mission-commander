@@ -6,7 +6,7 @@ class Torrent(models.Model):
     info_hash = models.CharField(max_length=2048)
     contents = models.TextField()
     link = models.URLField()
-    seen = models.DateTimeField(default=False)
+    seen = models.DateTimeField(null=True, blank=True, default=None)
 
 
 class Feed(models.Model):

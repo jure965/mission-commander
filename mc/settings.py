@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rss",
+    "django_celery_beat",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -114,3 +116,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CELERY_BROKER_URL = env.url("CELERY_BROKER_URL")
