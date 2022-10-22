@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "mission-commander"
+version = "0.1.0"
+description = ""
+authors = ["Jure Vengušt <jure@equaleyes.com>"]
+readme = "README.md"
+packages = [{include = "mission_commander"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+django = "^4.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
