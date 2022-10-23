@@ -101,3 +101,8 @@ In Django admin pages, add a transmission client, then add a feed.
 
 You can manually trigger _fetch feeds_ task in __Periodic tasks__, tick _fetch feeds_
 task and choose __Run selected tasks__ action, then click __Go__.
+
+## TODO
+
+- option to start torrents paused
+- filter feed items with regex
