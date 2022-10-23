@@ -32,7 +32,7 @@ services:
       - redis
     restart: unless-stopped
 
-  celery-worker:
+  worker:
     env_file: .env
     image: mission-commander/mc:latest
     environment:
@@ -45,7 +45,7 @@ services:
       - redis
     restart: unless-stopped
 
-  celery-beat:
+  beat:
     env_file: .env
     image: mission-commander/mc:latest
     environment:
