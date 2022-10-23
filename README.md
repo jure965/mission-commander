@@ -57,8 +57,7 @@ superuser, and finally start the rest of the stack:
 
 ```shell
 docker build -t mission-commander/mc:latest .
-docker compose -f docker-compose-prod.yml up postgres -d
-docker compose -f docker-compose-prod.yml up redis -d
+docker compose -f docker-compose-prod.yml up -d postgres redis
 docker compose -f docker-compose-prod.yml run web python manage.py migrate
 docker compose -f docker-compose-prod.yml run web python manage.py collectstatic
 docker compose -f docker-compose-prod.yml run web python manage.py createsuperuser
@@ -75,6 +74,26 @@ interval period __Hours__. You may customize this to your liking.
 Open __Periodic tasks__, add new periodic task with name __fetch feeds__, select
 a registered task __rss.tasks.fetch_feeds__ and select __Interval schedule__ that
 was created in previous step.
+
+### Update deployment
+
+Update repository:
+
+```shell
+git pull --ff-only
+```
+
+Shutdown stack, build docker image, start postgres and redis, apply migrations, collect
+static files, and start the rest of the stack:
+
+```shell
+docker compose -f docker-compose-prod.yml down
+docker build -t mission-commander/mc:latest .
+docker compose -f docker-compose-prod.yml up -d postgres redis
+docker compose -f docker-compose-prod.yml run web python manage.py migrate
+docker compose -f docker-compose-prod.yml run web python manage.py collectstatic
+docker compose -f docker-compose-prod.yml up -d
+```
 
 ## Usage
 
