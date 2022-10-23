@@ -54,7 +54,12 @@ def add_torrent(torrent_id: int, client_id: int, download_dir: str):
     tc = TransmissionClient.objects.get(id=client_id)
 
     rpc_client = Client(
-        host=tc.host, port=tc.port, username=tc.username, password=tc.password
+        protocol=tc.protocol,
+        host=tc.host,
+        port=tc.port,
+        username=tc.username,
+        password=tc.password,
+        path=tc.rpc_path,
     )
 
     rpc_client.add_torrent(torrent.link, download_dir=download_dir)
