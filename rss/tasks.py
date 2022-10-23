@@ -1,5 +1,8 @@
+from time import mktime
+
 import feedparser
 from celery import Celery
+from django.utils import timezone
 from transmission_rpc import Client
 
 from rss.models import Feed, Torrent, TransmissionClient
@@ -9,7 +12,9 @@ app = Celery("rss")
 
 @app.task
 def fetch_feeds():
-    feeds = Feed.objects.all()
+    now = timezone.now()
+    feeds = Feed.objects.exclude(expires_at__lt=now)
+
     for feed in feeds:
         parse_feed.delay(feed_id=feed.id)
 
@@ -19,9 +24,19 @@ def parse_feed(feed_id: int):
     feed = Feed.objects.get(id=feed_id)
     d = feedparser.parse(feed.url)
 
-    for item in d["items"]:
+    for entry in d.entries:
+        published = mktime(entry.published_parsed)
+
+        if feed.ignore_older_than and feed.ignore_older_than < published:
+            continue
+
+        if feed.ignore_newer_than and published < feed.ignore_newer_than:
+            continue
+
         torrent, created = Torrent.objects.get_or_create(
-            title=item["title"], link=item["link"]
+            title=entry.title,
+            link=entry.link,
+            published=published,
         )
 
         if created:
