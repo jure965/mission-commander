@@ -69,8 +69,8 @@ Now access the web UI via http://<your_host_ip>:8000/admin
 
 Log in with your username and password that you set earlier.
 
-Open __Intervals__, add new interval with number of periods 1 and
-interval period __Hours__. You may customize this accordingly.
+Open __Intervals__, add new interval with number of periods __1__ and
+interval period __Hours__. You may customize this to your liking.
 
 Open __Periodic tasks__, add new periodic task with name __fetch feeds__, select
 a registered task __rss.tasks.fetch_feeds__ and select __Interval schedule__ that
