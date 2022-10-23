@@ -1,5 +1,6 @@
 from datetime import datetime
 from time import mktime
+import pytz
 
 import feedparser
 from celery import Celery
@@ -26,7 +27,8 @@ def parse_feed(feed_id: int):
     d = feedparser.parse(feed.url)
 
     for entry in d.entries:
-        published = datetime.fromtimestamp(mktime(entry.published_parsed))
+        timestamp = mktime(entry.published_parsed)
+        published = datetime.fromtimestamp(timestamp).replace(tzinfo=pytz.UTC)
 
         if feed.ignore_older_than and feed.ignore_older_than < published:
             continue
