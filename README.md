@@ -1,18 +1,21 @@
 # mission-commander :rocket:
 
-Manage your torrent RSS feeds from the comfort of the web UI.
+This software stack works as an RSS feed bridge for Transmission clients.
+
+Inspired by [transmission-rss](https://github.com/nning/transmission-rss) project.
 
 Features:
 
-- adds RSS feed functionality to your Transmission daemon clients
-- manage RSS feeds via web UI
+- manage configuration and RSS feeds through web UI
+- works with one or more Transmission clients
 - feeds can be set to expire, i.e. stop fetching certain feeds after set date
+- easy deployment with docker
 
 ## Development setup
 
 Clone the repo.
 
-Copy _.env.example_ to _.env_ file.
+Copy _.env.example_ to _.env_ file. Add `DEBUG=true` to _.env_ file.
 
 Use poetry to create a virtual environment and install packages.
 
@@ -20,9 +23,10 @@ Use poetry to create a virtual environment and install packages.
 docker compose up -d
 poetry install --no-root
 poetry shell
-./manage.py migrate
-./manage.py collectstatic
-./manage.py runserver
+python manage.py migrate
+python manage.py collectstatic
+python manage.py createsuperuser
+python manage.py runserver
 ```
 
 Also run celery worker.
@@ -75,3 +79,6 @@ was created in previous step.
 ## Usage
 
 In Django admin pages, add a transmission client, then add a feed.
+
+You can manually trigger _fetch feeds_ task in __Periodic tasks__, tick _fetch feeds_
+task and choose __Run selected tasks__ action, then click __Go__.
