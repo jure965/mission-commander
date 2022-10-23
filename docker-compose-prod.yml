@@ -39,7 +39,7 @@ services:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
       CELERY_BROKER_URL: "redis://redis:6379"
-    command: celery -A mc worker
+    command: celery -A mc worker --concurrency 1
     depends_on:
       - postgres
       - redis
