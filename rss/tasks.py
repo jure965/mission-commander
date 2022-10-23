@@ -30,10 +30,10 @@ def parse_feed(feed_id: int):
         timestamp = mktime(entry.published_parsed)
         published = datetime.fromtimestamp(timestamp).replace(tzinfo=pytz.UTC)
 
-        if feed.ignore_older_than and feed.ignore_older_than < published:
+        if feed.ignore_older_than and published < feed.ignore_older_than:
             continue
 
-        if feed.ignore_newer_than and published < feed.ignore_newer_than:
+        if feed.ignore_newer_than and published > feed.ignore_newer_than:
             continue
 
         torrent, created = Torrent.objects.get_or_create(
