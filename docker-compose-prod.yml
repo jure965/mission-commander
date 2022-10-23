@@ -3,8 +3,6 @@ version: "3"
 services:
   redis:
     image: redis
-    ports:
-      - "6379:6379"
     restart: unless-stopped
 
   postgres:
@@ -13,24 +11,9 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
-    ports:
-      - "5432:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
     restart: unless-stopped
-
-  migration:
-    env_file: .env
-    image: mission-commander/mc:latest
-    environment:
-      SECRET_KEY: $SECRET_KEY
-      DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
-      CELERY_BROKER_URL: "redis://redis:6379"
-    command: python manage.py migrate && python manage.py collectstatic --no-input
-    volumes:
-      - staticfiles:/code/static
-    depends_on:
-      - postgres
 
   web:
     env_file: .env
@@ -47,7 +30,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - migration
     restart: unless-stopped
 
   celery-worker:
@@ -61,7 +43,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - migration
     restart: unless-stopped
 
   celery-beat:
@@ -75,7 +56,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - migration
     restart: unless-stopped
 
 volumes:

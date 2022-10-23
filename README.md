@@ -48,12 +48,17 @@ Clone this repo and cd into cloned folder.
 Copy _.env.example_ to _.env_ file. Edit the contents of _.env_ file, change the SECRET_KEY to
 some random string.
 
-Build docker image, run docker compose and create superuser:
+Build docker image, start postgres and redis, run migrations, collect static files, create
+superuser, and finally start the rest of the stack:
 
 ```shell
 docker build -t mission-commander/mc:latest .
-docker compose -f docker-compose-prod.yml up
+docker compose -f docker-compose-prod.yml up postgres -d
+docker compose -f docker-compose-prod.yml up redis -d
+docker compose -f docker-compose-prod.yml run web python manage.py migrate
+docker compose -f docker-compose-prod.yml run web python manage.py collectstatic
 docker compose -f docker-compose-prod.yml run web python manage.py createsuperuser
+docker compose -f docker-compose-prod.yml up -d
 ```
 
 Now access the web UI via http://<your_host_ip>:8000/admin
