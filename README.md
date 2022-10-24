@@ -104,5 +104,4 @@ task and choose __Run selected tasks__ action, then click __Go__.
 
 ## TODO
 
-- option to start torrents paused
 - filter feed items with regex
