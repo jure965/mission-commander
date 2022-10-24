@@ -52,7 +52,7 @@ def parse_feed(feed_id: int):
 
 
 @app.task
-def add_torrent(torrent_id: int, client_id: int, download_dir: str):
+def add_torrent(torrent_id: int, client_id: int, download_dir: str, start_paused: bool):
     torrent = Torrent.objects.get(id=torrent_id)
     tc = TransmissionClient.objects.get(id=client_id)
 
@@ -65,4 +65,4 @@ def add_torrent(torrent_id: int, client_id: int, download_dir: str):
         path=tc.rpc_path,
     )
 
-    rpc_client.add_torrent(torrent.link, download_dir=download_dir)
+    rpc_client.add_torrent(torrent.link, download_dir=download_dir, paused=start_paused)

@@ -16,7 +16,9 @@ class TransmissionClient(models.Model):
         HTTPS = "https", "https"
 
     name = models.CharField(max_length=2048, default="transmission")
-    protocol = models.CharField(max_length=10, choices=Protocol.choices, default=Protocol.HTTP)
+    protocol = models.CharField(
+        max_length=10, choices=Protocol.choices, default=Protocol.HTTP
+    )
     host = models.CharField(max_length=2048)
     port = models.CharField(max_length=10, default="9091")
     username = models.CharField(max_length=2048, blank=True)
@@ -29,10 +31,17 @@ class TransmissionClient(models.Model):
 
 class Feed(models.Model):
     url = models.URLField()
-    expires_at = models.DateTimeField(blank=True, null=True, help_text="Skip feed fetch after this date")
+    expires_at = models.DateTimeField(
+        blank=True, null=True, help_text="Skip feed fetch after this date"
+    )
     download_dir = models.CharField(max_length=2048, blank=True)
-    ignore_older_than = models.DateTimeField(blank=True, null=True, help_text="Ignore older torrents than this date")
-    ignore_newer_than = models.DateTimeField(blank=True, null=True, help_text="Ignore newer torrents than this date")
+    ignore_older_than = models.DateTimeField(
+        blank=True, null=True, help_text="Ignore older torrents than this date"
+    )
+    ignore_newer_than = models.DateTimeField(
+        blank=True, null=True, help_text="Ignore newer torrents than this date"
+    )
+    start_paused = models.BooleanField(default=False, help_text="Start torrents paused")
     transmission_clients = models.ManyToManyField(
         TransmissionClient, related_name="feeds", blank=True
     )
