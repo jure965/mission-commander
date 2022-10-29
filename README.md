@@ -104,4 +104,4 @@ task and choose __Run selected tasks__ action, then click __Go__.
 
 ## TODO
 
-- filter feed items with regex
+If additional features are desired, please create an issue on GitHub.

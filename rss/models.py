@@ -1,5 +1,7 @@
 from django.db import models
 
+from rss.fields import RegexField
+
 
 class Torrent(models.Model):
     title = models.CharField(max_length=2048)
@@ -31,6 +33,7 @@ class TransmissionClient(models.Model):
 
 class Feed(models.Model):
     url = models.URLField()
+    regex_filter = RegexField(max_length=2048, blank=True)
     expires_at = models.DateTimeField(
         blank=True, null=True, help_text="Skip feed fetch after this date"
     )

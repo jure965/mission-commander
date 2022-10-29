@@ -27,6 +27,9 @@ def parse_feed(feed_id: int):
     d = feedparser.parse(feed.url)
 
     for entry in d.entries:
+        if feed.regex_filter and not feed.regex_filter.search(entry.title):
+            continue  # skip if regex_filter is set and no match found in entry title
+
         timestamp = mktime(entry.published_parsed)
         published = datetime.fromtimestamp(timestamp).replace(tzinfo=pytz.UTC)
 
