@@ -21,28 +21,38 @@ def fetch_feeds():
         parse_feed.delay(feed_id=feed.id)
 
 
+def preprocess(entries):
+    for entry in entries:
+        # add proper timezone aware datetime property from time_struct
+        entry.pub = datetime.fromtimestamp(mktime(entry.published_parsed)).replace(
+            tzinfo=pytz.UTC
+        )
+
+
 @app.task
 def parse_feed(feed_id: int):
     feed = Feed.objects.get(id=feed_id)
     d = feedparser.parse(feed.url)
 
+    preprocess(d.entries)
+
+    if feed.chronological:
+        d.entries.sort(key=lambda x: x.pub)
+
     for entry in d.entries:
         if feed.regex_filter and not feed.regex_filter.search(entry.title):
             continue  # skip if regex_filter is set and no match found in entry title
 
-        timestamp = mktime(entry.published_parsed)
-        published = datetime.fromtimestamp(timestamp).replace(tzinfo=pytz.UTC)
-
-        if feed.ignore_older_than and published < feed.ignore_older_than:
+        if feed.ignore_older_than and entry.pub < feed.ignore_older_than:
             continue
 
-        if feed.ignore_newer_than and published > feed.ignore_newer_than:
+        if feed.ignore_newer_than and entry.pub > feed.ignore_newer_than:
             continue
 
         torrent, created = Torrent.objects.get_or_create(
             title=entry.title,
             link=entry.link,
-            published=published,
+            published=entry.pub,
         )
 
         if created:
