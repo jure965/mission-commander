@@ -51,6 +51,7 @@ def parse_feed(feed_id: int):
                     torrent_id=torrent.id,
                     client_id=client.id,
                     download_dir=feed.download_dir,
+                    start_paused=feed.start_paused,
                 )
 
 
