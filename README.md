@@ -77,6 +77,12 @@ was created in previous step.
 
 ### Update deployment
 
+#### Automatically
+
+Run the `update.sh` script while inside project folder.
+
+#### Manually
+
 Update repository:
 
 ```shell
@@ -95,7 +101,7 @@ docker compose -f docker-compose-prod.yml run web python manage.py collectstatic
 docker compose -f docker-compose-prod.yml up -d
 ```
 
-## Usage
+## Setup and usage
 
 In Django admin pages, add a transmission client, then add a feed.
 
