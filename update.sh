@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -ex
 
 git pull --ff-only
 docker compose -f docker-compose-prod.yml down
