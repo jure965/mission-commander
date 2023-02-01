@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'rss/style.css' %}">
+    <title>{% block title %}Base{% endblock %}</title>
+</head>
+
+<body>
+
+<nav>
+    <ul>
+        <li><p>mission-commander</p></li>
+    </ul>
+</nav>
+
+<main>
+    <h1>Login</h1>
+    <form action="/login/" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" />
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password">
+            <input type="submit" value="Login">
+        </div>
+    </form>
+</main>
+</body>
+</html>

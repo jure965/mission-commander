@@ -17,18 +17,57 @@ nav ul li {
     color: white;
 }
 
-nav ul li a {
+nav ul li.right {
+    float: right;
+}
+
+nav ul li a, nav ul li p {
     padding: 14px 16px;
     display: block;
     color: white;
     text-align: center;
     text-decoration: none;
+    margin: 0;
 }
 
 nav ul li a:hover {
     background-color: darkolivegreen;
 }
 
+main {
+    padding: 0 20px;
+}
+
 main h1 {
     color: darkolivegreen;
+}
+
+form div {
+    width: 400px;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    border: 1px solid black;
+    padding: 10px 14px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    background-color: aliceblue;
+}
+
+input[type=submit] {
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: darkolivegreen;
 }
