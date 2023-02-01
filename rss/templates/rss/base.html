@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'rss/style.css' %}">
+    <title>{% block title %}Base{% endblock %}</title>
+</head>
+
+<body>
+<nav>
+    <ul>
+        <li><a href="/">Feeds</a></li>
+        <li><a href="/torrent/">Torrents</a></li>
+        <li><a href="/client/">Clients</a></li>
+    </ul>
+</nav>
+
+<main>
+    {% block content %}
+        <h1>Base</h1>
+    {% endblock %}
+</main>
+</body>
+</html>
