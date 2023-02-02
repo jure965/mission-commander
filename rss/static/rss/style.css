@@ -71,3 +71,48 @@ input[type=submit] {
 input[type=submit]:hover {
     background-color: darkolivegreen;
 }
+
+ul.actions {
+    margin: 20px 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+ul.actions li {
+    float: left;
+    color: white;
+    background-color: black;
+}
+
+ul.actions li a {
+    padding: 14px 16px;
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    margin: 0;
+}
+
+ul.actions li a:hover {
+    background-color: darkolivegreen;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table td, table th {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+table th {
+    text-align: left;
+    background-color: darkolivegreen;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

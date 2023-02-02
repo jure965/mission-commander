@@ -4,4 +4,23 @@
 
 {% block content %}
     <h1>Clients</h1>
+    <table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Url</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for client in clients %}
+    <tr>
+        <td><a href="#">{{ client.name }}</a></td>
+        <td>{{ client.protocol }}://{{ client.host }}:{{ client.port }}{{ client.rpc_path }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <ul class="actions">
+        <li><a href="#">Add client</a></li>
+    </ul>
 {% endblock %}

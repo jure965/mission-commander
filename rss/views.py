@@ -1,7 +1,9 @@
 from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import redirect
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
+
+from rss.models import TransmissionClient
 
 
 class FeedListView(TemplateView):
@@ -12,8 +14,10 @@ class TorrentListView(TemplateView):
     template_name = "rss/torrent_list.html"
 
 
-class ClientListView(TemplateView):
+class ClientListView(ListView):
     template_name = "rss/client_list.html"
+    model = TransmissionClient
+    context_object_name = "clients"
 
 
 class LoginView(TemplateView):
