@@ -4,6 +4,7 @@
 
 {% block content %}
     <h1>Clients</h1>
+    {% if clients %}
     <table>
     <thead>
     <tr>
@@ -20,6 +21,9 @@
     {% endfor %}
     </tbody>
     </table>
+    {% else %}
+    <p>Add a Transmission client for mission-commander to control.</p>
+    {% endif %}
     <ul class="actions">
         <li><a href="{% url 'client-add' %}">Add</a></li>
     </ul>
