@@ -16,13 +16,10 @@
 
 <main>
     <h1>Login</h1>
-    <form action="{% url 'login' %}" method="post">
+    <form method="post">
         {% csrf_token %}
         <div>
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text" />
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password">
+            {{ form }}
             <input type="submit" value="Login">
         </div>
     </form>
