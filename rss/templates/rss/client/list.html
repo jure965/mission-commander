@@ -5,24 +5,24 @@
 {% block content %}
     <h1>Clients</h1>
     {% if clients %}
-    <table>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Url</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for client in clients %}
-    <tr>
-        <td><a href="{% url 'client-update' pk=client.pk %}">{{ client.name }}</a></td>
-        <td>{{ client.protocol }}://{{ client.host }}:{{ client.port }}{{ client.rpc_path }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-    </table>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Url</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td><a href="{% url 'client-update' pk=client.pk %}">{{ client.name }}</a></td>
+                    <td>{{ client.protocol }}://{{ client.host }}:{{ client.port }}{{ client.rpc_path }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% else %}
-    <p>Add a Transmission client for mission-commander to control.</p>
+        <p>Add a Transmission client for mission-commander to control.</p>
     {% endif %}
     <ul class="actions">
         <li><a href="{% url 'client-add' %}">Add</a></li>
