@@ -6,26 +6,26 @@ from rss.models import TransmissionClient
 
 
 class ClientListView(ListView):
-    template_name = "rss/client_list.html"
+    template_name = "rss/client/list.html"
     model = TransmissionClient
     context_object_name = "clients"
 
 
 class ClientCreateView(CreateView):
-    template_name = "rss/client_create.html"
+    template_name = "rss/client/create.html"
     model = TransmissionClient
     form_class = TransmissionClientForm
     success_url = reverse_lazy("client-list")
 
 
 class ClientUpdateView(UpdateView):
-    template_name = "rss/client_update.html"
+    template_name = "rss/client/update.html"
     model = TransmissionClient
     form_class = TransmissionClientForm
     success_url = reverse_lazy("client-list")
 
 
 class ClientDeleteView(DeleteView):
-    template_name = "rss/client_delete.html"
+    template_name = "rss/client/delete.html"
     model = TransmissionClient
     success_url = reverse_lazy("client-list")
