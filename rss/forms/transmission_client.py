@@ -5,7 +5,7 @@ from rss.models import TransmissionClient
 
 
 class TransmissionClientForm(ModelForm):
-    username = UsernameField()
+    username = UsernameField(required=False)
     password = CharField(
         label="Password",
         strip=False,

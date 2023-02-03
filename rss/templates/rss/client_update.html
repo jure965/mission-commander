@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>Update client</h1>
-    <form action="{% url 'client-update' pk=transmissionclient.pk %}" method="post">
+    <form method="post">
         <div>
             {% csrf_token %}
             {{ form }}

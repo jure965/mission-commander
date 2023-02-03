@@ -132,3 +132,15 @@ h1.danger {
 input[type=submit].danger, a.button.danger {
     background-color: crimson;
 }
+
+ul.errorlist {
+    border: 1px solid darkred;
+    background-color: #ffefef;
+    padding: 8px;
+    border-radius: 6px;
+    color: darkred;
+}
+
+ul.errorlist li {
+    list-style-type: none;
+}

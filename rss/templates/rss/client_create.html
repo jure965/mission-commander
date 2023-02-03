@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>Add client</h1>
-    <form action="{% url 'client-add' %}" method="post">
+    <form method="post">
     <div>
         {% csrf_token %}
         {{ form }}
