@@ -1,8 +1,17 @@
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import logout
+from django.contrib.auth.views import LoginView as BuiltinLoginView
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import (
+    TemplateView,
+    ListView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
+from rss.forms import TransmissionClientForm
 from rss.models import TransmissionClient
 
 
@@ -20,19 +29,28 @@ class ClientListView(ListView):
     context_object_name = "clients"
 
 
-class LoginView(TemplateView):
+class ClientCreateView(CreateView):
+    template_name = "rss/client_create.html"
+    model = TransmissionClient
+    form_class = TransmissionClientForm
+    success_url = reverse_lazy("client-list")
+
+
+class ClientUpdateView(UpdateView):
+    template_name = "rss/client_update.html"
+    model = TransmissionClient
+    form_class = TransmissionClientForm
+    success_url = reverse_lazy("client-list")
+
+
+class ClientDeleteView(DeleteView):
+    template_name = "rss/client_delete.html"
+    model = TransmissionClient
+    success_url = reverse_lazy("client-list")
+
+
+class LoginView(BuiltinLoginView):
     template_name = "rss/login.html"
-
-    def post(self, request):
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect("/")
-
-        return super().get(request)
 
 
 class LogoutView(View):

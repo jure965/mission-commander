@@ -1,0 +1,17 @@
+{% extends "rss/base.html" %}
+
+{% block title %}Update client{% endblock %}
+
+{% block content %}
+    <h1>Update client</h1>
+    <form action="{% url 'client-update' pk=transmissionclient.pk %}" method="post">
+        <div>
+            {% csrf_token %}
+            {{ form }}
+            <div>
+                <a class="button danger" href="{% url 'client-delete' pk=transmissionclient.pk %}">Delete</a>
+                <input type="submit" value="Update">
+            </div>
+        </div>
+    </form>
+{% endblock %}

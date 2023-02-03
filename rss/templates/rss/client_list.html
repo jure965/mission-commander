@@ -14,13 +14,13 @@
     <tbody>
     {% for client in clients %}
     <tr>
-        <td><a href="#">{{ client.name }}</a></td>
+        <td><a href="{% url 'client-update' pk=client.pk %}">{{ client.name }}</a></td>
         <td>{{ client.protocol }}://{{ client.host }}:{{ client.port }}{{ client.rpc_path }}</td>
     </tr>
     {% endfor %}
     </tbody>
     </table>
     <ul class="actions">
-        <li><a href="#">Add client</a></li>
+        <li><a href="{% url 'client-add' %}">Add</a></li>
     </ul>
 {% endblock %}

@@ -16,7 +16,7 @@
 
 <main>
     <h1>Login</h1>
-    <form action="/login/" method="post">
+    <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
         <div>
             <label for="username">Username</label>
