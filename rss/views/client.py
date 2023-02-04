@@ -7,6 +7,7 @@ from rss.models import TransmissionClient
 
 
 class ClientListView(LoginRequiredMixin, ListView):
+    paginate_by = 15
     template_name = "rss/client/list.html"
     model = TransmissionClient
     context_object_name = "clients"

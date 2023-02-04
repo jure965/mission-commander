@@ -5,6 +5,7 @@ from rss.models import Torrent
 
 
 class TorrentListView(LoginRequiredMixin, ListView):
+    paginate_by = 15
     template_name = "rss/torrent/list.html"
     model = Torrent
     context_object_name = "torrents"
