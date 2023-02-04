@@ -82,19 +82,31 @@ input[type=submit]:hover, a.button:hover {
     background-color: darkolivegreen;
 }
 
-ul.actions {
-    margin: 20px 0;
+div.topbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+ul.actions,
+ul.paginator {
+    margin: 0;
     padding: 0;
     overflow: hidden;
+    display: flex;
 }
 
-ul.actions li {
-    float: left;
+ul.actions li,
+ul.paginator li {
     color: white;
     background-color: black;
+    list-style-type: none;
 }
 
-ul.actions li a {
+ul.actions li a,
+ul.actions li span,
+ul.paginator li a,
+ul.paginator li span {
     padding: 14px 16px;
     display: block;
     color: white;
@@ -103,7 +115,8 @@ ul.actions li a {
     margin: 0;
 }
 
-ul.actions li a:hover {
+ul.actions li a:hover,
+ul.paginator li a:hover {
     background-color: darkolivegreen;
 }
 

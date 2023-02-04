@@ -4,6 +4,28 @@
 
 {% block content %}
     <h1>Feeds</h1>
+    <div class="topbar">
+        <ul class="actions">
+            <li><a href="{% url 'feed-add' %}">Add</a></li>
+        </ul>
+        <ul class="paginator">
+            {% if page_obj.has_previous %}
+                <li><a href="?page=1">&laquo; first</a></li>
+                <li><a href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+            {% else %}
+                <li><span>&laquo; first</span></li>
+                <li><span>previous</span></li>
+            {% endif %}
+            <li><span>{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}</span></li>
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">next</a></li>
+                <li><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+            {% else %}
+                <li><span>next</span></li>
+                <li><span>last &raquo;</span></li>
+            {% endif %}
+        </ul>
+    </div>
     {% if feeds %}
         <table>
             <thead>
@@ -24,7 +46,4 @@
     {% else %}
         <p>Add a Feed for mission-commander to periodically check.</p>
     {% endif %}
-    <ul class="actions">
-        <li><a href="{% url 'feed-add' %}">Add</a></li>
-    </ul>
 {% endblock %}

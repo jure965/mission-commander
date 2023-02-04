@@ -7,6 +7,7 @@ from rss.models import Feed
 
 
 class FeedListView(LoginRequiredMixin, ListView):
+    paginate_by = 15
     template_name = "rss/feed/list.html"
     model = Feed
     context_object_name = "feeds"
