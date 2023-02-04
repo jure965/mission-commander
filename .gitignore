@@ -1,5 +1,6 @@
-.env
+/.env
 __pycache__
-static/
-.idea/
+/static
+/.idea
 *.iml
+sqlite.db

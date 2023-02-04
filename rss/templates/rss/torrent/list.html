@@ -1,0 +1,27 @@
+{% extends "rss/base.html" %}
+
+{% block title %}Torrents{% endblock %}
+
+{% block content %}
+    <h1>Torrents</h1>
+    {% if torrents %}
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Published</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for torrent in torrents %}
+                <tr>
+                    <td><a href="{% url 'torrent-detail' pk=torrent.pk %}">{{ torrent.title }}</a></td>
+                    <td>{{ torrent.published }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>List of Torrents that have been seen by mission-commander.</p>
+    {% endif %}
+{% endblock %}

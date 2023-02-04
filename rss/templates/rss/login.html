@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'rss/style.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'rss/favicon.ico' %}"/>
+    <title>Login - mission-commander</title>
+</head>
+
+<body>
+
+<nav>
+    <ul>
+        <li><p>mission-commander</p></li>
+    </ul>
+</nav>
+
+<main>
+    <h1>Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            {{ form }}
+            <input type="submit" value="Login">
+        </div>
+    </form>
+</main>
+</body>
+</html>
