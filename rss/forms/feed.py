@@ -8,6 +8,8 @@ class FeedForm(ModelForm):
     class Meta:
         model = Feed
         fields = (
+            "enabled",
+            "name",
             "url",
             "regex_filter",
             "expires_at",
@@ -19,11 +21,13 @@ class FeedForm(ModelForm):
             "transmission_clients",
         )
         labels = {
+            "enabled": "",
             "start_paused": "",
             "chronological": "",
             "transmission_clients": "Clients",
         }
         widgets = {
+            "enabled": CheckboxInput(label="Enabled"),
             "start_paused": CheckboxInput(label="Start paused"),
             "chronological": CheckboxInput(label="Chronological"),
             "expires_at": DateTimeInput(attrs={"class": "flatpickr"}),
