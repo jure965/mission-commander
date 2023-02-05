@@ -30,15 +30,21 @@
         <table>
             <thead>
             <tr>
-                <th>ID</th>
+                <th>Name</th>
                 <th>Url</th>
+                <th>Last activity</th>
             </tr>
             </thead>
             <tbody>
             {% for feed in feeds %}
                 <tr>
-                    <td><a href="{% url 'feed-update' pk=feed.pk %}">{{ feed.pk }}</a></td>
+                    <td><a href="{% url 'feed-update' pk=feed.pk %}">{% firstof feed.name feed.pk %}</a></td>
                     <td>{{ feed.url }}</td>
+                    {% if feed.last_activity %}
+                        <td>{{ feed.last_activity|timesince }} ago</td>
+                    {% else %}
+                        <td>never</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
