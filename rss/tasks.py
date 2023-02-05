@@ -63,6 +63,9 @@ def parse_feed(feed_id: int):
 
     torrent_ids = [t[0].id for t in torrents if t[1]]
 
+    if not torrent_ids:
+        return
+
     for client in feed.transmission_clients.all():
         send_torrents.delay(
             torrent_ids=torrent_ids,
