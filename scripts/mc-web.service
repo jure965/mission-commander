@@ -1,0 +1,14 @@
+[Unit]
+Description=mission-commander web
+After=network.target
+Requires=postgresql.service
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root/mission-commander
+EnvironmentFile=/root/mission-commander/.env
+ExecStart=/root/.local/bin/poetry run gunicorn mc.wsgi -b 0.0.0.0:8000
+
+[Install]
+WantedBy=multi-user.target
