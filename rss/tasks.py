@@ -27,6 +27,9 @@ def parse_feed(feed_id: int):
 
     torrents = do_parse_feed(feed)
 
+    feed.last_activity = timezone.now()
+    feed.save()
+
     if not torrents:
         return
 

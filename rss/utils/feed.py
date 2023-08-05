@@ -6,7 +6,6 @@ import pytz
 from datetime import datetime
 from time import mktime
 
-from django.utils import timezone
 from transmission_rpc import Client
 
 from rss.models import Feed, Torrent, TransmissionClient
@@ -47,9 +46,6 @@ def do_parse_feed(feed: Feed) -> List[Torrent]:
                 published=entry.pub,
             )
         )
-
-    feed.last_activity = timezone.now()
-    feed.save()
 
     # return only newly created torrents
     return [t[0] for t in torrents if t[1]]
