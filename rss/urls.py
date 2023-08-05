@@ -13,10 +13,12 @@ from rss.views import (
     ClientDeleteView,
     TorrentListView,
     TorrentDetailView,
+    OnceCreateView,
 )
 
 urlpatterns = [
     path("", FeedListView.as_view(), name="feed-list"),
+    path("once/", OnceCreateView.as_view(), name="once-add"),
     path("feed/add/", FeedCreateView.as_view(), name="feed-add"),
     path("feed/<int:pk>/", FeedUpdateView.as_view(), name="feed-update"),
     path("feed/<int:pk>/delete/", FeedDeleteView.as_view(), name="feed-delete"),
