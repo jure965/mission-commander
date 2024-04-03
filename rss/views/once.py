@@ -6,7 +6,9 @@ from django.views.generic import CreateView
 
 from rss.forms import FeedForm
 from rss.models import Feed
-from rss.utils.feed import do_parse_feed, do_send_torrents
+from rss.utils.feed import do_parse_feed
+
+from rss.tasks import send_torrents
 
 
 class OnceCreateView(LoginRequiredMixin, CreateView):
@@ -17,19 +19,22 @@ class OnceCreateView(LoginRequiredMixin, CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
-        if form.is_valid():
-            feed = form.instance
-            clients = form.cleaned_data["transmission_clients"].all()
-            # todo async
-            torrents = do_parse_feed(feed)
-            torrent_ids = [t.id for t in torrents]
-            for client in clients:
-                do_send_torrents(
-                    torrent_ids=torrent_ids,
-                    client_id=client.id,
-                    download_dir=feed.download_dir,
-                    start_paused=feed.start_paused,
-                )
-            return redirect("feed-list")
-        else:
+
+        if not form.is_valid():
             return self.form_invalid(form)
+
+        feed = form.instance
+        clients = form.cleaned_data["transmission_clients"].all()
+
+        torrents = do_parse_feed(feed)
+        torrent_ids = [t.id for t in torrents]
+
+        for client in clients:
+            send_torrents.delay(
+                torrent_ids=torrent_ids,
+                client_id=client.id,
+                download_dir=feed.download_dir,
+                start_paused=feed.start_paused,
+            )
+
+        return redirect("torrent-list")
