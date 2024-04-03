@@ -9,7 +9,6 @@ class TorrentListView(LoginRequiredMixin, ListView):
     template_name = "rss/torrent/list.html"
     model = Torrent
     context_object_name = "torrents"
-    ordering = "-published"
 
 
 class TorrentDetailView(LoginRequiredMixin, DetailView):
