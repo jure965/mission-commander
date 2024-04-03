@@ -31,15 +31,15 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Url</th>
-                <th>Last activity</th>
+                <th>Added</th>
+                <th>Last check</th>
             </tr>
             </thead>
             <tbody>
             {% for feed in feeds %}
                 <tr>
                     <td><a href="{% url 'feed-update' pk=feed.pk %}">{% firstof feed.name feed.pk %}</a></td>
-                    <td>{{ feed.url }}</td>
+                    <td>{{ feed.created_at|date:"n. j. Y H:i" }}</td>
                     {% if feed.last_activity %}
                         <td>{{ feed.last_activity|timesince }} ago</td>
                     {% else %}
