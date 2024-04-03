@@ -32,13 +32,15 @@
             <tr>
                 <th>Title</th>
                 <th>Published</th>
+                <th>Added</th>
             </tr>
             </thead>
             <tbody>
             {% for torrent in torrents %}
                 <tr>
                     <td><a href="{% url 'torrent-detail' pk=torrent.pk %}">{{ torrent.title }}</a></td>
-                    <td>{{ torrent.published }}</td>
+                    <td>{{ torrent.published|date:"n. j. Y H:i" }}</td>
+                    <td>{{ torrent.created_at|date:"n. j. Y H:i" }}</td>
                 </tr>
             {% endfor %}
             </tbody>
