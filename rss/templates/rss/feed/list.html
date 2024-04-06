@@ -42,7 +42,7 @@
             {% for feed in feeds %}
                 <tr>
                     <td><a href="{% url 'feed-update' pk=feed.pk %}">{% firstof feed.name feed.pk %}</a></td>
-                    <td>{{ feed.created_at|date:"n. j. Y H:i" }}</td>
+                    <td>{{ feed.created_at|naturaltime|default_if_none:"never" }}</td>
                     <td>{{ feed.last_activity|naturaltime|default_if_none:"never" }}</td>
                     <td>{{ feed.last_added|naturaltime|default_if_none:"never" }}</td>
                 </tr>
