@@ -26,6 +26,7 @@ class Feed(models.Model):
         to="rss.TransmissionClient", related_name="feeds", blank=True
     )
     last_activity = models.DateTimeField(blank=True, null=True)
+    last_added = models.DateTimeField(blank=True, null=True, default=None)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

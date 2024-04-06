@@ -1,5 +1,7 @@
 {% extends "rss/base.html" %}
 
+{% load humanize %}
+
 {% block title %}Feeds{% endblock %}
 
 {% block content %}
@@ -33,6 +35,7 @@
                 <th>Name</th>
                 <th>Added</th>
                 <th>Last check</th>
+                <th>Last added</th>
             </tr>
             </thead>
             <tbody>
@@ -40,11 +43,8 @@
                 <tr>
                     <td><a href="{% url 'feed-update' pk=feed.pk %}">{% firstof feed.name feed.pk %}</a></td>
                     <td>{{ feed.created_at|date:"n. j. Y H:i" }}</td>
-                    {% if feed.last_activity %}
-                        <td>{{ feed.last_activity|timesince }} ago</td>
-                    {% else %}
-                        <td>never</td>
-                    {% endif %}
+                    <td>{{ feed.last_activity|naturaltime|default_if_none:"never" }}</td>
+                    <td>{{ feed.last_added|naturaltime|default_if_none:"never" }}</td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -33,6 +33,9 @@ def parse_feed(feed_id: int):
     if not torrents:
         return
 
+    feed.last_added = timezone.now()
+    feed.save()
+
     torrent_ids = [t.id for t in torrents]
 
     clients = feed.transmission_clients.all()
