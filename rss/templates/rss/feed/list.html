@@ -9,6 +9,7 @@
     <div class="topbar">
         <ul class="actions">
             <li><a href="{% url 'feed-add' %}">Add</a></li>
+            <li><a href="{% url 'feed-check' %}">Check now</a></li>
         </ul>
         <ul class="paginator">
             {% if page_obj.has_previous %}

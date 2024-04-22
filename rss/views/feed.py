@@ -1,9 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from rss.forms import FeedForm
 from rss.models import Feed
+
+from rss.tasks import fetch_feeds
 
 
 class FeedListView(LoginRequiredMixin, ListView):
@@ -31,3 +35,10 @@ class FeedDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "rss/feed/delete.html"
     model = Feed
     success_url = reverse_lazy("feed-list")
+
+
+class FeedCheckView(LoginRequiredMixin, View):
+    @staticmethod
+    def get(request, *args, **kwargs):
+        fetch_feeds.delay()
+        return redirect("feed-list")
