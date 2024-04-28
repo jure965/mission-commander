@@ -1,12 +1,22 @@
-version: "3"
-
 services:
   redis:
     image: redis
+    healthcheck:
+      test: redis-cli ping
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     restart: unless-stopped
 
   postgres:
     image: postgres
+    healthcheck:
+      test: pg_isready
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
@@ -28,8 +38,10 @@ services:
     volumes:
       - staticfiles:/code/static
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
   worker:
@@ -41,8 +53,10 @@ services:
       CELERY_BROKER_URL: "redis://redis:6379"
     command: celery -A mc worker --concurrency 1
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
   beat:
@@ -54,8 +68,10 @@ services:
       CELERY_BROKER_URL: "redis://redis:6379"
     command: celery -A mc beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:
