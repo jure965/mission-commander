@@ -34,15 +34,17 @@
             <thead>
             <tr>
                 <th>Name</th>
+                <th>Enabled</th>
                 <th>Added</th>
                 <th>Last check</th>
-                <th>Last added</th>
+                <th>Last torrent</th>
             </tr>
             </thead>
             <tbody>
             {% for feed in feeds %}
                 <tr>
                     <td><a href="{% url 'feed-update' pk=feed.pk %}">{% firstof feed.name feed.pk %}</a></td>
+                    <td>{{ feed.is_enabled|yesno:"Yes,No" }}</td>
                     <td>{{ feed.created_at|naturaltime|default_if_none:"never" }}</td>
                     <td>{{ feed.last_activity|naturaltime|default_if_none:"never" }}</td>
                     <td>{{ feed.last_added|naturaltime|default_if_none:"never" }}</td>
