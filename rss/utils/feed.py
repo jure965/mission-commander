@@ -1,7 +1,7 @@
 from typing import List
 
 import feedparser
-import pytz
+import zoneinfo
 
 from datetime import datetime
 from time import mktime
@@ -12,11 +12,11 @@ from rss.models import Feed, Torrent, TransmissionClient
 
 
 def preprocess(entries):
+    utc = zoneinfo.ZoneInfo("Etc/UTC")
     for entry in entries:
         # add proper timezone aware datetime property from time_struct
-        entry.pub = datetime.fromtimestamp(mktime(entry.published_parsed)).replace(
-            tzinfo=pytz.UTC
-        )
+        timestamp = mktime(entry.published_parsed)
+        entry.pub = datetime.fromtimestamp(timestamp).replace(tzinfo=utc)
 
 
 def do_parse_feed(feed: Feed) -> List[Torrent]:
