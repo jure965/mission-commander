@@ -25,7 +25,7 @@ def parse_feed(feed_id: int):
         return
 
     now = timezone.now()
-    if feed.expires_at < now:
+    if feed.expires_at is not None and feed.expires_at < now:
         feed.enabled = False
         feed.save()
         return
