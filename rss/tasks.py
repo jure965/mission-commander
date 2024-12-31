@@ -15,7 +15,7 @@ def fetch_feeds():
     feeds = Feed.objects.filter(expires_at__gt=now, enabled=True)
 
     for feed in feeds:
-        parse_feed.delay(feed_id=feed.id)
+        parse_feed.delay(feed_id=feed.pk)
 
 
 @app.task
@@ -36,14 +36,14 @@ def parse_feed(feed_id: int):
     feed.last_added = timezone.now()
     feed.save()
 
-    torrent_ids = [t.id for t in torrents]
+    torrent_ids = [t.pk for t in torrents]
 
     clients = feed.transmission_clients.all()
 
     for client in clients:
         send_torrents.delay(
             torrent_ids=torrent_ids,
-            client_id=client.id,
+            client_id=client.pk,
             download_dir=feed.download_dir,
             start_paused=feed.start_paused,
         )

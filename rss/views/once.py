@@ -27,12 +27,12 @@ class OnceCreateView(LoginRequiredMixin, CreateView):
         clients = form.cleaned_data["transmission_clients"].all()
 
         torrents = do_parse_feed(feed)
-        torrent_ids = [t.id for t in torrents]
+        torrent_ids = [t.pk for t in torrents]
 
         for client in clients:
             send_torrents.delay(
                 torrent_ids=torrent_ids,
-                client_id=client.id,
+                client_id=client.pk,
                 download_dir=feed.download_dir,
                 start_paused=feed.start_paused,
             )

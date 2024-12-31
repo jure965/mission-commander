@@ -17,7 +17,7 @@ class FeedAdmin(admin.ModelAdmin):
     @admin.action(description="Fetch and parse selected feeds")
     def fetch_selected_feeds(self, request, queryset):
         for feed in queryset:
-            parse_feed.delay(feed_id=feed.id)
+            parse_feed.delay(feed_id=feed.pk)
 
         count = queryset.count()
 
