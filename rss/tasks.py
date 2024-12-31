@@ -11,8 +11,7 @@ app = Celery("rss")
 
 @app.task
 def fetch_feeds():
-    now = timezone.now()
-    feeds = Feed.objects.filter(expires_at__gt=now, enabled=True)
+    feeds = Feed.objects.filter(enabled=True)
 
     for feed in feeds:
         parse_feed.delay(feed_id=feed.pk)
@@ -23,6 +22,12 @@ def parse_feed(feed_id: int):
     feed = Feed.objects.get(id=feed_id)
 
     if not feed.transmission_clients.exists():
+        return
+
+    now = timezone.now()
+    if feed.expires_at < now:
+        feed.enabled = False
+        feed.save()
         return
 
     torrents = do_parse_feed(feed)
