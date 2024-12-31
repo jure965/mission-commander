@@ -12,7 +12,7 @@ app = Celery("rss")
 @app.task
 def fetch_feeds():
     now = timezone.now()
-    feeds = Feed.objects.exclude(expires_at__lt=now, enabled=False)
+    feeds = Feed.objects.filter(expires_at__gt=now, enabled=True)
 
     for feed in feeds:
         parse_feed.delay(feed_id=feed.id)
