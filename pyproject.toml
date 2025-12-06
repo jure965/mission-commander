@@ -1,33 +1,39 @@
-[tool.poetry]
+[project]
 name = "mission-commander"
 version = "0.2.0"
 description = "RSS for Transmission torrent clients"
-authors = ["Jure Vengušt <mission-commander@kaar.bid>"]
+authors = [{ name = "Jure Vengušt", email = "mission-commander@kaar.bid" }]
+requires-python = ">=3.11,<4"
 readme = "README.md"
-packages = [{include = "mission_commander"}]
+dependencies = [
+    "django>=5.1.4,<6",
+    "django-environ>=0.11.2,<0.12",
+    "transmission-rpc>=7.0.3,<8",
+    "psycopg2-binary>=2.9.9,<3",
+    "celery>=5.4.0,<6",
+    "django-celery-beat>=2.6.0,<3",
+    "redis>=5.2.1,<6",
+    "ipython>=8.31.0,<9",
+    "django-extensions>=3.2.3,<4",
+    "feedparser>=6.0.11,<7",
+    "gunicorn>=23.0.0,<24",
+    "whitenoise>=6.8.2,<7",
+    "django-regex-field>=3.1.0,<4",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-django = "^5.1.4"
-django-environ = "^0.11.2"
-transmission-rpc = "^7.0.3"
-psycopg2-binary = "^2.9.9"
-celery = "^5.4.0"
-django-celery-beat = "^2.6.0"
-redis = "^5.2.1"
-ipython = "^8.31.0"
-django-extensions = "^3.2.3"
-feedparser = "^6.0.11"
-gunicorn = "^23.0.0"
-whitenoise = "^6.8.2"
-django-regex-field = "^3.1.0"
+[dependency-groups]
+dev = [
+    "black>=24.4.2,<25",
+    "flake8>=7.0.0,<8",
+    "pre-commit>=3.7.0,<4",
+]
 
+[tool.hatch.build.targets.sdist]
+include = ["mission_commander"]
 
-[tool.poetry.group.dev.dependencies]
-black = "^24.4.2"
-flake8 = "^7.0.0"
-pre-commit = "^3.7.0"
+[tool.hatch.build.targets.wheel]
+include = ["mission_commander"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
