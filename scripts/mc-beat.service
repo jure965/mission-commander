@@ -8,7 +8,7 @@ User=root
 Group=root
 WorkingDirectory=/root/mission-commander
 EnvironmentFile=/root/mission-commander/.env
-ExecStart=/root/.local/bin/poetry run celery -A mc beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
+ExecStart=/usr/bin/uv run celery -A mc beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
 
 [Install]
 WantedBy=multi-user.target

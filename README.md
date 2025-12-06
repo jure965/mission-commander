@@ -17,30 +17,32 @@ Clone the repo.
 
 Copy _.env.example_ to _.env_ file. Add `DEBUG=true` to _.env_ file.
 
-Use poetry to create a virtual environment and install packages.
+Start postgres and redis services using docker compose:
 
 ```shell
-docker compose up -d
-poetry install --no-root
-poetry shell
-python manage.py migrate
-python manage.py collectstatic
-python manage.py createsuperuser
-python manage.py runserver
+docker compose -f compose-dev.yaml up -d
+```
+
+Use uv to create a virtual environment and install packages.
+
+```shell
+uv sync
+uv run python manage.py migrate
+uv run manage.py collectstatic
+uv run manage.py createsuperuser
+uv run manage.py runserver
 ```
 
 Also run celery worker.
 
 ```shell
-poetry shell
-celery -A mc worker -l INFO
+uv run celery -A mc worker -l INFO
 ```
 
 And celery beat.
 
 ```shell
-poetry shell
-celery -A mc beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+uv run celery -A mc beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
 ```
 
 ## Production deployment
@@ -57,11 +59,11 @@ superuser, and finally start the rest of the stack:
 
 ```shell
 docker build -t mission-commander:latest .
-docker compose -f docker-compose-prod.yml up -d postgres redis
-docker compose -f docker-compose-prod.yml run web python manage.py migrate
-docker compose -f docker-compose-prod.yml run web python manage.py collectstatic
-docker compose -f docker-compose-prod.yml run web python manage.py createsuperuser
-docker compose -f docker-compose-prod.yml up -d
+docker compose -f compose.yaml up -d postgres redis
+docker compose -f compose.yaml run web python manage.py migrate
+docker compose -f compose.yaml run web python manage.py collectstatic
+docker compose -f compose.yaml run web python manage.py createsuperuser
+docker compose -f compose.yaml up -d
 ```
 
 Now access the web UI via http://<your_host_ip>:8000/admin
@@ -93,12 +95,12 @@ Shutdown stack, build docker image, start postgres and redis, apply migrations, 
 static files, and start the rest of the stack:
 
 ```shell
-docker compose -f docker-compose-prod.yml down
+docker compose -f compose.yaml down
 docker build -t mission-commander:latest .
-docker compose -f docker-compose-prod.yml up -d postgres redis
-docker compose -f docker-compose-prod.yml run web python manage.py migrate
-docker compose -f docker-compose-prod.yml run web python manage.py collectstatic
-docker compose -f docker-compose-prod.yml up -d
+docker compose -f compose.yaml up -d postgres redis
+docker compose -f compose.yaml run web python manage.py migrate
+docker compose -f compose.yaml run web python manage.py collectstatic
+docker compose -f compose.yaml up -d
 ```
 
 ## Setup and usage
