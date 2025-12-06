@@ -22,7 +22,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql
     restart: unless-stopped
 
   database-migration:
@@ -64,9 +64,9 @@ services:
       CELERY_BROKER_URL: "redis://redis:6379"
     ports:
       - "8000:8000"
-    command: poetry run gunicorn mc.wsgi -b 0.0.0.0:8000
+    command: gunicorn mc.wsgi -b 0.0.0.0:8000
     volumes:
-      - staticfiles:/code/static
+      - staticfiles:/app/static
     depends_on:
       collect-static-files:
         condition: service_completed_successfully
