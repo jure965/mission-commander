@@ -1,23 +1,42 @@
-FROM python:3.12-slim
+# Use a Python image with uv pre-installed
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
-ENV PYTHONFAULTHANDLER=1 \
-PYTHONUNBUFFERED=1 \
-PYTHONHASHSEED=random \
-PIP_NO_CACHE_DIR=off \
-PIP_DISABLE_PIP_VERSION_CHECK=on \
-PIP_DEFAULT_TIMEOUT=100 \
-POETRY_VERSION=1.8.2 \
-POETRY_VIRTUALENVS_CREATE=false \
-POETRY_CACHE_DIR='/var/cache/pypoetry'
+# Setup a non-root user
+RUN groupadd --system --gid 999 nonroot \
+ && useradd --system --gid 999 --uid 999 --create-home nonroot
 
-RUN pip3 install poetry
+# Install the project into `/app`
+WORKDIR /app
 
-WORKDIR /code
+# Enable bytecode compilation
+ENV UV_COMPILE_BYTECODE=1
 
-COPY poetry.lock pyproject.toml /code/
+# Copy from the cache instead of linking since it's a mounted volume
+ENV UV_LINK_MODE=copy
 
-RUN poetry install --no-root --without dev
+# Ensure installed tools can be executed out of the box
+ENV UV_TOOL_BIN_DIR=/usr/local/bin
 
-COPY . /code/
+# Install the project's dependencies using the lockfile and settings
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project --no-dev
 
-USER 1000
+# Then, add the rest of the project source code and install it
+# Installing separately from its dependencies allows optimal layer caching
+COPY . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev
+
+# Place executables in the environment at the front of the path
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Reset the entrypoint, don't invoke `uv`
+ENTRYPOINT []
+
+# Use the non-root user to run our application
+USER nonroot
+
+# Run Django application by default
+CMD ["gunicorn", "mc.wsgi", "-b", "0.0.0.0:8000"]

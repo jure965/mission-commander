@@ -56,7 +56,7 @@ Build docker image, start postgres and redis, run migrations, collect static fil
 superuser, and finally start the rest of the stack:
 
 ```shell
-docker build -t mission-commander/mc:latest .
+docker build -t mission-commander:latest .
 docker compose -f docker-compose-prod.yml up -d postgres redis
 docker compose -f docker-compose-prod.yml run web python manage.py migrate
 docker compose -f docker-compose-prod.yml run web python manage.py collectstatic
@@ -94,7 +94,7 @@ static files, and start the rest of the stack:
 
 ```shell
 docker compose -f docker-compose-prod.yml down
-docker build -t mission-commander/mc:latest .
+docker build -t mission-commander:latest .
 docker compose -f docker-compose-prod.yml up -d postgres redis
 docker compose -f docker-compose-prod.yml run web python manage.py migrate
 docker compose -f docker-compose-prod.yml run web python manage.py collectstatic

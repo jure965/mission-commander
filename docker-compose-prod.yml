@@ -1,6 +1,6 @@
 services:
   redis:
-    image: redis
+    image: redis:latest
     healthcheck:
       test: redis-cli ping
       interval: 30s
@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgres
+    image: postgres:latest
     healthcheck:
       test: pg_isready
       interval: 30s
@@ -25,9 +25,39 @@ services:
       - postgres:/var/lib/postgresql/data
     restart: unless-stopped
 
+  database-migration:
+    image: mission-commander:latest
+    environment:
+      SECRET_KEY: $SECRET_KEY
+      DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
+      CELERY_BROKER_URL: "redis://redis:6379"
+    command: python manage.py migrate
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  collect-static-files:
+    image: mission-commander:latest
+    environment:
+      SECRET_KEY: $SECRET_KEY
+      DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
+      CELERY_BROKER_URL: "redis://redis:6379"
+    command: python manage.py collectstatic --noinput
+    volumes:
+      - staticfiles:/app/static
+    depends_on:
+      database-migration:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
   web:
     env_file: .env
-    image: mission-commander/mc:latest
+    image: mission-commander:latest
     environment:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
@@ -38,6 +68,10 @@ services:
     volumes:
       - staticfiles:/code/static
     depends_on:
+      collect-static-files:
+        condition: service_completed_successfully
+      database-migration:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
       redis:
@@ -46,13 +80,15 @@ services:
 
   worker:
     env_file: .env
-    image: mission-commander/mc:latest
+    image: mission-commander:latest
     environment:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
       CELERY_BROKER_URL: "redis://redis:6379"
     command: celery -A mc worker --concurrency 1
     depends_on:
+      database-migration:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
       redis:
@@ -61,13 +97,15 @@ services:
 
   beat:
     env_file: .env
-    image: mission-commander/mc:latest
+    image: mission-commander:latest
     environment:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
       CELERY_BROKER_URL: "redis://redis:6379"
     command: celery -A mc beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
     depends_on:
+      database-migration:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
       redis:
