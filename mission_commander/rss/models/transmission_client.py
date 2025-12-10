@@ -17,4 +17,4 @@ class TransmissionClient(models.Model):
     rpc_path = models.CharField(max_length=2048, default="/transmission/")
 
     def __str__(self):
-        return f"{self.name} ({self.host}:{self.port})"
+        return f"{self.name} ({self.host}:{self.port})"  # noqa: E231
