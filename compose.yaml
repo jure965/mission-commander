@@ -70,8 +70,6 @@ services:
     depends_on:
       collect-static-files:
         condition: service_completed_successfully
-      database-migration:
-        condition: service_completed_successfully
       postgres:
         condition: service_healthy
       redis:
