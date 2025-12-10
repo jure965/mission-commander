@@ -1,0 +1,14 @@
+{% extends "rss/base.html" %}
+
+{% block title %}Add client{% endblock %}
+
+{% block content %}
+    <h1>Add client</h1>
+    <form method="post">
+        <div>
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Add">
+        </div>
+    </form>
+{% endblock %}

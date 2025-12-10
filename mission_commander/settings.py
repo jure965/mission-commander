@@ -32,13 +32,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-    "mission_commander.rss",
+    "rss",
     "django_celery_beat",
     "django_extensions",
 ]
 
 MIDDLEWARE = [
-    "mission_commander.rss.middleware.HealthCheckMiddleware",
+    "rss.middleware.HealthCheckMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
