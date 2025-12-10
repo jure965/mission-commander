@@ -47,28 +47,27 @@ uv run celery -A mission_commander beat -l INFO --scheduler django_celery_beat.s
 
 ## Production deployment
 
-First have a fresh host or vm with docker, including docker compose plugin, and git installed.
+First have a fresh host or vm with docker, including docker compose plugin.
 
 Clone this repo and cd into cloned folder.
 
 Copy _.env.example_ to _.env_ file. Edit the contents of _.env_ file, change the SECRET_KEY to
 some random string.
 
-Build docker image, start postgres and redis, run migrations, collect static files, create
-superuser, and finally start the rest of the stack:
+Run docker compose:
 
 ```shell
-docker build -t mission-commander:latest .
-docker compose -f compose.yaml up -d postgres redis
-docker compose -f compose.yaml run web python manage.py migrate
-docker compose -f compose.yaml run web python manage.py collectstatic
-docker compose -f compose.yaml run web python manage.py createsuperuser
-docker compose -f compose.yaml up -d
+docker compose up -d
+docker compose exec web bash
+# now inside web container:
+uv run python manage.py createsuperuser
+# follow instructions, then leave container:
+exit
 ```
 
 Now access the web UI via http://<your_host_ip>:8000/admin
 
-Log in with your username and password that you set earlier.
+Log in with your superuser that you set earlier.
 
 Open __Intervals__, add new interval with number of periods __1__ and
 interval period __Hours__. You may customize this to your liking.
@@ -79,28 +78,11 @@ was created in previous step.
 
 ### Update deployment
 
-#### Automatically
-
-Run the `update.sh` script while inside project folder.
-
-#### Manually
-
-Update repository:
-
 ```shell
+docker compose down
 git pull --ff-only
-```
-
-Shutdown stack, build docker image, start postgres and redis, apply migrations, collect
-static files, and start the rest of the stack:
-
-```shell
-docker compose -f compose.yaml down
-docker build -t mission-commander:latest .
-docker compose -f compose.yaml up -d postgres redis
-docker compose -f compose.yaml run web python manage.py migrate
-docker compose -f compose.yaml run web python manage.py collectstatic
-docker compose -f compose.yaml up -d
+docker compose pull
+docker compose up -d
 ```
 
 ## Setup and usage
@@ -111,5 +93,9 @@ You can manually trigger _fetch feeds_ task in __Periodic tasks__, tick _fetch f
 task and choose __Run selected tasks__ action, then click __Go__.
 
 ## TODO
+
+- add search for torrents
+- add some logging
+- view and manage torrents per client
 
 If additional features are desired, please create an issue on GitHub.
