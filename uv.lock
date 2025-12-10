@@ -482,7 +482,7 @@ wheels = [
 [[package]]
 name = "mission-commander"
 version = "0.4.0"
-source = { editable = "." }
+source = { virtual = "." }
 dependencies = [
     { name = "celery" },
     { name = "django" },
