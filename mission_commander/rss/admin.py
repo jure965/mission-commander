@@ -1,8 +1,8 @@
 from django.contrib import admin, messages
 from django.utils.translation import ngettext
 
-from models import Torrent, Feed, TransmissionClient
-from tasks import parse_feed
+from mission_commander.rss.models import Torrent, Feed, TransmissionClient
+from mission_commander.rss.tasks import parse_feed
 
 
 @admin.register(Torrent)

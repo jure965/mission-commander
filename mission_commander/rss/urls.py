@@ -1,6 +1,6 @@
 from django.urls import path
 
-from views import (
+from mission_commander.rss.views import (
     FeedListView,
     FeedCreateView,
     FeedUpdateView,

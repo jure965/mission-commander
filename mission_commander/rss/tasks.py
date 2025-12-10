@@ -3,8 +3,8 @@ from typing import List
 from celery import Celery
 from django.utils import timezone
 
-from models import Feed
-from utils.feed import do_parse_feed, do_send_torrents
+from mission_commander.rss.models import Feed
+from mission_commander.rss.utils.feed import do_parse_feed, do_send_torrents
 
 app = Celery("rss")
 
