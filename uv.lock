@@ -306,18 +306,6 @@ wheels = [
 ]
 
 [[package]]
-name = "django-regex-field"
-version = "3.1.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "django" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/ca/90/2f794e40e5a512abfa227efb7edd8ea50d780848aba98a74fc4f46998078/django-regex-field-3.1.0.tar.gz", hash = "sha256:e17e7296e8d8c6fb68f30342eb6c88ec0336d811a22f7f180717f71e6c1e3fd6", size = 8231, upload-time = "2023-06-28T20:24:53.131Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d8/99/99aaaf79948f032883f156dfe107a877c5a48467f2cf90aea32b7aebe55c/django_regex_field-3.1.0-py2.py3-none-any.whl", hash = "sha256:8d4f5c8dd60f187cf45e11ea01011b86fc18bc15ff31de91a7fd438e2b1037a2", size = 8120, upload-time = "2023-06-28T20:24:52.021Z" },
-]
-
-[[package]]
 name = "django-timezone-field"
 version = "7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -489,7 +477,6 @@ dependencies = [
     { name = "django-celery-beat" },
     { name = "django-environ" },
     { name = "django-extensions" },
-    { name = "django-regex-field" },
     { name = "feedparser" },
     { name = "gunicorn" },
     { name = "psycopg2-binary" },
@@ -513,9 +500,8 @@ requires-dist = [
     { name = "django-celery-beat", specifier = "==2.8.1" },
     { name = "django-environ", specifier = "==0.12.0" },
     { name = "django-extensions", specifier = "==4.1.0" },
-    { name = "django-regex-field", specifier = ">=3.1.0,<4" },
     { name = "feedparser", specifier = "==6.0.12" },
-    { name = "gunicorn", specifier = ">=23.0.0,<24" },
+    { name = "gunicorn", specifier = "==23.0.0" },
     { name = "psycopg2-binary", specifier = "==2.9.11" },
     { name = "redis", specifier = "==7.1.0" },
     { name = "transmission-rpc", specifier = "==7.0.11" },
