@@ -2,7 +2,7 @@ services:
   redis:
     image: redis:latest
     healthcheck:
-      test: redis-cli ping
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -12,7 +12,7 @@ services:
   postgres:
     image: postgres:latest
     healthcheck:
-      test: pg_isready
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
 
   database-migration:
-    image: mission-commander:latest
+    image: ghcr.io/jure965/mission-commander:latest
     environment:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
@@ -39,7 +39,7 @@ services:
         condition: service_healthy
 
   collect-static-files:
-    image: mission-commander:latest
+    image: ghcr.io/jure965/mission-commander:latest
     environment:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
@@ -57,7 +57,7 @@ services:
 
   web:
     env_file: .env
-    image: mission-commander:latest
+    image: ghcr.io/jure965/mission-commander:latest
     environment:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
@@ -80,7 +80,7 @@ services:
 
   worker:
     env_file: .env
-    image: mission-commander:latest
+    image: ghcr.io/jure965/mission-commander:latest
     environment:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
@@ -97,7 +97,7 @@ services:
 
   beat:
     env_file: .env
-    image: mission-commander:latest
+    image: ghcr.io/jure965/mission-commander:latest
     environment:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
