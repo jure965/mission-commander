@@ -74,7 +74,9 @@ WSGI_APPLICATION = "mc.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": env.db(),
+    "default": env.db_url(
+        default="postgres://postgres:postgres@localhost:5432/postgres"
+    ),
 }
 
 
@@ -120,7 +122,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CELERY_BROKER_URL = env.url("CELERY_BROKER_URL")
+CELERY_BROKER_URL = env.url("CELERY_BROKER_URL", default="redis://localhost:6379/0")
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"

@@ -1,13 +1,11 @@
 from django.db import models
 
-from rss.fields import RegexField
-
 
 class Feed(models.Model):
     enabled = models.BooleanField(default=True)
     name = models.CharField(max_length=2048, blank=True)
     url = models.URLField()
-    regex_filter = RegexField(max_length=2048, blank=True)
+    regex_filter = models.CharField(max_length=2048, blank=True)
     expires_at = models.DateTimeField(
         blank=True, null=True, help_text="Skip feed fetch after this date"
     )

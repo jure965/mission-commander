@@ -1,3 +1,4 @@
+import re
 from typing import List
 
 import feedparser
@@ -28,7 +29,8 @@ def do_parse_feed(feed: Feed) -> List[Torrent]:
         d.entries.sort(key=lambda x: x.pub)
 
     if feed.regex_filter:
-        d.entries = [e for e in d.entries if feed.regex_filter.search(e.title)]
+        re_filter = re.compile(feed.regex_filter)
+        d.entries = [e for e in d.entries if re_filter.search(e.title)]
 
     if feed.ignore_older_than:
         d.entries = [e for e in d.entries if e.pub > feed.ignore_older_than]
