@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{% static 'rss/main.js' %}"></script>
+{% endblock %}
+
+{% block title %}Update feed{% endblock %}
+
+{% block content %}
+    <h1>Update feed</h1>
+    <form method="post">
+        <div>
+            {% csrf_token %}
+            {{ form }}
+            <div>
+                <a class="button danger" href="{% url 'feed-delete' pk=feed.pk %}">Delete</a>
+                <input type="submit" value="Update">
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -36,13 +36,13 @@ uv run manage.py runserver
 Also run celery worker.
 
 ```shell
-uv run celery -A mc worker -l INFO
+uv run celery -A mission_commander worker -l INFO
 ```
 
 And celery beat.
 
 ```shell
-uv run celery -A mc beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+uv run celery -A mission_commander beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
 ```
 
 ## Production deployment

@@ -8,7 +8,7 @@ User=root
 Group=root
 WorkingDirectory=/root/mission-commander
 EnvironmentFile=/root/mission-commander/.env
-ExecStart=/usr/bin/uv run celery -A mc worker --concurrency 1
+ExecStart=/usr/bin/uv run celery -A mission_commander worker --concurrency 1
 
 [Install]
 WantedBy=multi-user.target

@@ -41,4 +41,4 @@ RUN mkdir static && chown -R nonroot:nonroot static
 USER nonroot
 
 # Run Django application by default
-CMD ["gunicorn", "mc.wsgi", "-b", "0.0.0.0:8000"]
+CMD ["gunicorn", "mission_commander.wsgi", "-b", "0.0.0.0:8000"]

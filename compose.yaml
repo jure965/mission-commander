@@ -64,7 +64,7 @@ services:
       CELERY_BROKER_URL: "redis://redis:6379"
     ports:
       - "8000:8000"
-    command: gunicorn mc.wsgi -b 0.0.0.0:8000
+    command: gunicorn mission_commander.wsgi -b 0.0.0.0:8000
     volumes:
       - staticfiles:/app/static
     depends_on:
@@ -83,7 +83,7 @@ services:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
       CELERY_BROKER_URL: "redis://redis:6379"
-    command: celery -A mc worker --concurrency 1
+    command: celery -A mission_commander worker --concurrency 1
     depends_on:
       database-migration:
         condition: service_completed_successfully
@@ -100,7 +100,7 @@ services:
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
       CELERY_BROKER_URL: "redis://redis:6379"
-    command: celery -A mc beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: celery -A mission_commander beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
     depends_on:
       database-migration:
         condition: service_completed_successfully

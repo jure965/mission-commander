@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Torrent details{% endblock %}
+
+{% block content %}
+    <h1>Torrent details</h1>
+    <table>
+        <thead></thead>
+        <tbody>
+        <tr>
+            <td>Title</td>
+            <td>{{ torrent.title }}</td>
+        </tr>
+        <tr>
+            <td>Published</td>
+            <td>{{ torrent.published }}</td>
+        </tr>
+        <tr>
+            <td>Link</td>
+            <td><a href="{{ torrent.link }}">{{ torrent.link }}</a></td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

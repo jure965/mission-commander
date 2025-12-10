@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block title %}Feeds{% endblock %}
+
+{% block content %}
+    <h1>Feeds</h1>
+    <div class="topbar">
+        <ul class="actions">
+            <li><a href="{% url 'feed-add' %}">Add</a></li>
+            <li><a href="{% url 'feed-check' %}">Check now</a></li>
+        </ul>
+        <ul class="paginator">
+            {% if page_obj.has_previous %}
+                <li><a href="?page=1">&laquo; first</a></li>
+                <li><a href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+            {% else %}
+                <li><span>&laquo; first</span></li>
+                <li><span>previous</span></li>
+            {% endif %}
+            <li><span>{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}</span></li>
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">next</a></li>
+                <li><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+            {% else %}
+                <li><span>next</span></li>
+                <li><span>last &raquo;</span></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% if feeds %}
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Enabled</th>
+                <th>Added</th>
+                <th>Last check</th>
+                <th>Last torrent</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for feed in feeds %}
+                <tr>
+                    <td><a href="{% url 'feed-update' pk=feed.pk %}">{% firstof feed.name feed.pk %}</a></td>
+                    <td>{{ feed.enabled|yesno:"Yes,No" }}</td>
+                    <td>{{ feed.created_at|naturaltime|default_if_none:"never" }}</td>
+                    <td>{{ feed.last_activity|naturaltime|default_if_none:"never" }}</td>
+                    <td>{{ feed.last_added|naturaltime|default_if_none:"never" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Add a Feed for mission-commander to periodically check.</p>
+    {% endif %}
+{% endblock %}
