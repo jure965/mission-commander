@@ -1,6 +1,7 @@
 /.env
 __pycache__
-/static
+/static/admin
+/static/django_extensions
 /.idea
 *.iml
 sqlite.db

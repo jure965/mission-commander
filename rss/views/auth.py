@@ -8,7 +8,7 @@ from rss.forms.login import LoginForm
 
 
 class LoginView(BuiltinLoginView):
-    template_name = "login.html"
+    template_name = "auth/login.html"
     form_class = LoginForm
     success_url = reverse_lazy("feed-list")
 

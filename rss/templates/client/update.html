@@ -2,6 +2,13 @@
 
 {% block title %}Update client{% endblock %}
 
+{% block nav_links %}
+    <a class="nav-link" href="/feeds/">Feeds</a>
+    <a class="nav-link active" aria-current="page" href="/client/">Clients</a>
+    <a class="nav-link" href="/torrent/">Torrents</a>
+    <a class="nav-link" href="/once/">Once</a>
+{% endblock %}
+
 {% block content %}
     <h1>Update client</h1>
     <form method="post">

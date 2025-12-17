@@ -9,6 +9,13 @@
 
 {% block title %}Update feed{% endblock %}
 
+{% block nav_links %}
+    <a class="nav-link active" aria-current="page" href="/feeds/">Feeds</a>
+    <a class="nav-link" href="/client/">Clients</a>
+    <a class="nav-link" href="/torrent/">Torrents</a>
+    <a class="nav-link" href="/once/">Once</a>
+{% endblock %}
+
 {% block content %}
     <h1>Update feed</h1>
     <form method="post">

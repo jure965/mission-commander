@@ -35,7 +35,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 # Reset the entrypoint, don't invoke `uv`
 ENTRYPOINT []
 
-RUN mkdir static && chown -R nonroot:nonroot static
+RUN chown -R nonroot:nonroot static
 
 # Use the non-root user to run our application
 USER nonroot
