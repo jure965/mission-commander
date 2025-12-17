@@ -2,7 +2,7 @@ from django.forms import CheckboxInput as BuiltinCheckboxInput
 
 
 class CheckboxInput(BuiltinCheckboxInput):
-    template_name = "rss/widget/checkbox.html"
+    template_name = "widget/checkbox.html"
 
     def __init__(self, attrs=None, check_test=None, label=""):
         super().__init__(attrs, check_test)

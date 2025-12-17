@@ -1,12 +1,12 @@
-{% extends "rss/base.html" %}
+{% extends "base.html" %}
 
-{% block title %}Clients{% endblock %}
+{% block title %}Torrents{% endblock %}
 
 {% block content %}
-    <h1>Clients</h1>
+    <h1>Torrents</h1>
     <div class="topbar">
         <ul class="actions">
-            <li><a href="{% url 'client-add' %}">Add</a></li>
+            <li></li>
         </ul>
         <ul class="paginator">
             {% if page_obj.has_previous %}
@@ -26,24 +26,26 @@
             {% endif %}
         </ul>
     </div>
-    {% if clients %}
+    {% if torrents %}
         <table>
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Url</th>
+                <th>Title</th>
+                <th>Published</th>
+                <th>Added</th>
             </tr>
             </thead>
             <tbody>
-            {% for client in clients %}
+            {% for torrent in torrents %}
                 <tr>
-                    <td><a href="{% url 'client-update' pk=client.pk %}">{{ client.name }}</a></td>
-                    <td>{{ client.protocol }}://{{ client.host }}:{{ client.port }}{{ client.rpc_path }}</td>
+                    <td><a href="{% url 'torrent-detail' pk=torrent.pk %}">{{ torrent.title }}</a></td>
+                    <td>{{ torrent.published|date:"n. j. Y H:i" }}</td>
+                    <td>{{ torrent.created_at|date:"n. j. Y H:i" }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>Add a Transmission client for mission-commander to control.</p>
+        <p>List of Torrents that have been seen by mission-commander.</p>
     {% endif %}
 {% endblock %}

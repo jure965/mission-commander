@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path, reverse_lazy
+from django.views.generic import RedirectView
 
 from rss.views import (
     FeedListView,
@@ -18,7 +19,8 @@ from rss.views import (
 )
 
 urlpatterns = [
-    path("", FeedListView.as_view(), name="feed-list"),
+    path("", RedirectView.as_view(url=reverse_lazy("feed-list")), name="root"),
+    path("feeds/", FeedListView.as_view(), name="feed-list"),
     path("once/", OnceCreateView.as_view(), name="once-add"),
     path("feed/add/", FeedCreateView.as_view(), name="feed-add"),
     path("feed/check/", FeedCheckView.as_view(), name="feed-check"),

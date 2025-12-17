@@ -8,26 +8,26 @@ from rss.models import TransmissionClient
 
 class ClientListView(LoginRequiredMixin, ListView):
     paginate_by = 15
-    template_name = "rss/client/list.html"
+    template_name = "client/list.html"
     model = TransmissionClient
     context_object_name = "clients"
 
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
-    template_name = "rss/client/create.html"
+    template_name = "client/create.html"
     model = TransmissionClient
     form_class = TransmissionClientForm
     success_url = reverse_lazy("client-list")
 
 
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = "rss/client/update.html"
+    template_name = "client/update.html"
     model = TransmissionClient
     form_class = TransmissionClientForm
     success_url = reverse_lazy("client-list")
 
 
 class ClientDeleteView(LoginRequiredMixin, DeleteView):
-    template_name = "rss/client/delete.html"
+    template_name = "client/delete.html"
     model = TransmissionClient
     success_url = reverse_lazy("client-list")

@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class OnceCreateView(LoginRequiredMixin, CreateView):
-    template_name = "rss/once/create.html"
+    template_name = "once/create.html"
     model = Feed
     form_class = FeedForm
     success_url = reverse_lazy("feed-list")

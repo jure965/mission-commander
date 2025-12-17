@@ -1,14 +1,15 @@
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import (
     LoginView as BuiltinLoginView,
     LogoutView as BuiltinLogoutView,
 )
 from django.urls import reverse_lazy
 
+from rss.forms.login import LoginForm
+
 
 class LoginView(BuiltinLoginView):
-    template_name = "rss/login.html"
-    form_class = AuthenticationForm
+    template_name = "login.html"
+    form_class = LoginForm
     success_url = reverse_lazy("feed-list")
 
 
