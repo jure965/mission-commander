@@ -1,10 +1,12 @@
-from django.forms import ModelForm, DateTimeInput
+from django.forms import ModelForm, CheckboxInput, TextInput, SelectMultiple
 
 from rss.models import Feed
-from rss.widgets import CheckboxInput
+from rss.widgets.date import DateInput
 
 
 class FeedForm(ModelForm):
+    template_name = "feed/form.html"
+
     class Meta:
         model = Feed
         fields = (
@@ -21,18 +23,23 @@ class FeedForm(ModelForm):
             "transmission_clients",
         )
         labels = {
-            "enabled": "",
-            "start_paused": "",
-            "chronological": "",
+            "enabled": "Enabled",
+            "start_paused": "Start paused",
+            "chronological": "Chronological",
             "transmission_clients": "Clients",
         }
         widgets = {
-            "enabled": CheckboxInput(label="Enabled"),
-            "start_paused": CheckboxInput(label="Start paused"),
-            "chronological": CheckboxInput(label="Chronological"),
-            "expires_at": DateTimeInput(attrs={"class": "flatpickr"}),
-            "ignore_older_than": DateTimeInput(attrs={"class": "flatpickr"}),
-            "ignore_newer_than": DateTimeInput(attrs={"class": "flatpickr"}),
+            "enabled": CheckboxInput(attrs={"class": "form-check-input"}),
+            "name": TextInput(attrs={"class": "form-control"}),
+            "url": TextInput(attrs={"class": "form-control"}),
+            "regex_filter": TextInput(attrs={"class": "form-control"}),
+            "expires_at": DateInput(attrs={"class": "form-control"}),
+            "download_dir": TextInput(attrs={"class": "form-control"}),
+            "ignore_older_than": DateInput(attrs={"class": "form-control"}),
+            "ignore_newer_than": DateInput(attrs={"class": "form-control"}),
+            "start_paused": CheckboxInput(attrs={"class": "form-check-input"}),
+            "chronological": CheckboxInput(attrs={"class": "form-check-input"}),
+            "transmission_clients": SelectMultiple(attrs={"class": "form-select"}),
         }
         help_texts = {
             "url": None,

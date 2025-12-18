@@ -1,0 +1,53 @@
+{{ form.non_field_errors }}
+<div class="mb-1 form-check">
+    {{ form.enabled }}
+    <label for="{{ form.enabled.id_for_label }}" class="form-check-label">{{ form.enabled.label }}</label>
+</div>
+<div class="mb-1">
+    {{ form.name.errors }}
+    <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+    {{ form.name }}
+</div>
+<div class="mb-1">
+    {{ form.url.errors }}
+    <label for="{{ form.url.id_for_label }}" class="form-label">{{ form.url.label }}</label>
+    {{ form.url }}
+</div>
+<div class="mb-1">
+    {{ form.regex_filter.errors }}
+    <label for="{{ form.regex_filter.id_for_label }}" class="form-label">{{ form.regex_filter.label }}</label>
+    {{ form.regex_filter }}
+</div>
+<div class="mb-1">
+    {{ form.expires_at.errors }}
+    <label for="{{ form.expires_at.id_for_label }}" class="form-label">{{ form.expires_at.label }}</label>
+    {{ form.expires_at }}
+</div>
+<div class="mb-1">
+    {{ form.download_dir.errors }}
+    <label for="{{ form.download_dir.id_for_label }}" class="form-label">{{ form.download_dir.label }}</label>
+    {{ form.download_dir }}
+</div>
+<div class="mb-1">
+    {{ form.ignore_older_than.errors }}
+    <label for="{{ form.ignore_older_than.id_for_label }}" class="form-label">{{ form.ignore_older_than.label }}</label>
+    {{ form.ignore_older_than }}
+</div>
+<div class="mb-1">
+    {{ form.ignore_newer_than.errors }}
+    <label for="{{ form.ignore_newer_than.id_for_label }}" class="form-label">{{ form.ignore_newer_than.label }}</label>
+    {{ form.ignore_newer_than }}
+</div>
+<div class="mb-1">
+    {{ form.start_paused }}
+    <label for="{{ form.start_paused.id_for_label }}" class="form-label">{{ form.start_paused.label }}</label>
+</div>
+<div class="mb-1">
+    {{ form.chronological }}
+    <label for="{{ form.chronological.id_for_label }}" class="form-label">{{ form.chronological.label }}</label>
+</div>
+<div class="mb-1">
+    {{ form.transmission_clients.errors }}
+    <label for="{{ form.transmission_clients.id_for_label }}" class="form-label">{{ form.transmission_clients.label }}</label>
+    {{ form.transmission_clients }}
+</div>
