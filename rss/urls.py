@@ -16,6 +16,9 @@ from rss.views import (
     TorrentDetailView,
     OnceCreateView,
     FeedCheckView,
+    TorrentUpdateView,
+    TorrentDeleteView,
+    TorrentCreateView,
 )
 
 urlpatterns = [
@@ -31,7 +34,14 @@ urlpatterns = [
     path("client/<int:pk>/", ClientUpdateView.as_view(), name="client-update"),
     path("client/<int:pk>/delete/", ClientDeleteView.as_view(), name="client-delete"),
     path("torrent/", TorrentListView.as_view(), name="torrent-list"),
+    path("torrent/add/", TorrentCreateView.as_view(), name="torrent-add"),
     path("torrent/<int:pk>/", TorrentDetailView.as_view(), name="torrent-detail"),
+    path(
+        "torrent/<int:pk>/update/", TorrentUpdateView.as_view(), name="torrent-update"
+    ),
+    path(
+        "torrent/<int:pk>/delete/", TorrentDeleteView.as_view(), name="torrent-delete"
+    ),
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
 ]

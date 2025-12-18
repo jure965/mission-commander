@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Update torrent{% endblock %}
+
+{% block nav_links %}
+    <a class="nav-link" href="/feeds/">Feeds</a>
+    <a class="nav-link" href="/client/">Clients</a>
+    <a class="nav-link active" aria-current="page" href="/torrent/">Torrents</a>
+    <a class="nav-link" href="/once/">Once</a>
+{% endblock %}
+
+{% block content %}
+    <h1>Update torrent</h1>
+    <form method="post">
+        <div>
+            {% csrf_token %}
+            {{ form }}
+            <div>
+                <a class="btn btn-danger" href="{% url 'torrent-delete' pk=torrent.id %}">Delete</a>
+                <input class="btn btn-primary" type="submit" value="Update">
+            </div>
+        </div>
+    </form>
+{% endblock %}

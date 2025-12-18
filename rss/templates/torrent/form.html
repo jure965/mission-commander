@@ -1,0 +1,16 @@
+{{ form.non_field_errors }}
+<div class="mb-1">
+    {{ form.title.errors }}
+    <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+    {{ form.title }}
+</div>
+<div class="mb-1">
+    {{ form.link.errors }}
+    <label for="{{ form.link.id_for_label }}" class="form-label">{{ form.link.label }}</label>
+    {{ form.link }}
+</div>
+<div class="mb-1">
+    {{ form.published.errors }}
+    <label for="{{ form.published.id_for_label }}" class="form-label">{{ form.published.label }}</label>
+    {{ form.published }}
+</div>

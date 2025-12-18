@@ -11,21 +11,10 @@
 
 {% block content %}
     <h1>Torrent details</h1>
-    <table>
-        <thead></thead>
-        <tbody>
-        <tr>
-            <td>Title</td>
-            <td>{{ torrent.title }}</td>
-        </tr>
-        <tr>
-            <td>Published</td>
-            <td>{{ torrent.published }}</td>
-        </tr>
-        <tr>
-            <td>Link</td>
-            <td><a href="{{ torrent.link }}">{{ torrent.link }}</a></td>
-        </tr>
-        </tbody>
-    </table>
+    <p><b>Title:</b> {{ torrent.title }}</p>
+    <p><b>Published:</b> {{ torrent.published }}</p>
+    <p><b>Link:</b> <a href="{{ torrent.link }}">{{ torrent.link }}</a></p>
+    <div>
+    <a class="btn btn-primary" href="{% url 'torrent-update' pk=torrent.id %}">Update</a>
+    </div>
 {% endblock %}
