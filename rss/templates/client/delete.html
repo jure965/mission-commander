@@ -14,8 +14,8 @@
     <form method="post">
         <div>
             {% csrf_token %}
-            <p>Delete transmission client <b>{{ transmissionclient.name }}</b>?</p>
-            <input class="danger" type="submit" value="Delete">
+            <p>Delete transmission client ({{ transmissionclient.id }}) <b>{{ transmissionclient.name }}</b>?</p>
+            <input class="btn btn-danger" type="submit" value="Delete">
         </div>
     </form>
 {% endblock %}

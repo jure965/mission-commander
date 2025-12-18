@@ -1,0 +1,36 @@
+{{ form.non_field_errors }}
+<div class="mb-1">
+    {{ form.name.errors }}
+    <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+    {{ form.name }}
+</div>
+<div class="mb-1">
+    {{ form.protocol.errors }}
+    <label for="{{ form.protocol.id_for_label }}" class="form-label">{{ form.protocol.label }}</label>
+    {{ form.protocol }}
+</div>
+<div class="mb-1">
+    {{ form.host.errors }}
+    <label for="{{ form.host.id_for_label }}" class="form-label">{{ form.host.label }}</label>
+    {{ form.host }}
+</div>
+<div class="mb-1">
+    {{ form.port.errors }}
+    <label for="{{ form.port.id_for_label }}" class="form-label">{{ form.port.label }}</label>
+    {{ form.port }}
+</div>
+<div class="mb-1">
+    {{ form.username.errors }}
+    <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label }}</label>
+    {{ form.username }}
+</div>
+<div class="mb-1">
+    {{ form.password.errors }}
+    <label for="{{ form.password.id_for_label }}" class="form-label">{{ form.password.label }}</label>
+    {{ form.password }}
+</div>
+<div class="mb-1">
+    {{ form.rpc_path.errors }}
+    <label for="{{ form.rpc_path.id_for_label }}" class="form-label">{{ form.rpc_path.label }}</label>
+    {{ form.rpc_path }}
+</div>

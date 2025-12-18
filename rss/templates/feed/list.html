@@ -13,28 +13,14 @@
 
 {% block content %}
     <h1>Feeds</h1>
-    <nav aria-label="Page navigation example">
-        <a class="btn btn-primary" href="{% url 'feed-add' %}">Add</a>
-        <a class="btn btn-primary" href="{% url 'feed-check' %}">Check now</a>
-        <ul class="pagination justify-content-end">
-            {% if page_obj.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
-            {% else %}
-                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-            {% endif %}
-            {% if page_obj.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-            {% endif %}
-            <li class="page-item active"><a class="page-link" href="?page={{ page_obj.number }}" aria-current="page">{{ page_obj.number }}</a></li>
-            {% if page_obj.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
-            {% endif %}
-            {% if page_obj.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-            {% else %}
-                <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-            {% endif %}
-        </ul>
+    <nav class="d-flex justify-content-between" aria-label="Page navigation">
+        <div>
+            <a class="btn btn-primary" href="{% url 'feed-add' %}">Add</a>
+            <a class="btn btn-primary" href="{% url 'feed-check' %}">Check now</a>
+        </div>
+        <div>
+            {% include 'pagenav.html' %}
+        </div>
     </nav>
 
     {% if feeds %}

@@ -16,8 +16,8 @@
             {% csrf_token %}
             {{ form }}
             <div>
-                <a class="button danger" href="{% url 'client-delete' pk=transmissionclient.pk %}">Delete</a>
-                <input type="submit" value="Update">
+                <a class="btn btn-danger" href="{% url 'client-delete' pk=transmissionclient.pk %}">Delete</a>
+                <input type="submit" class="btn btn-primary" value="Update">
             </div>
         </div>
     </form>
