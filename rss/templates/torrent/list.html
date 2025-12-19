@@ -3,10 +3,7 @@
 {% block title %}Torrents{% endblock %}
 
 {% block nav_links %}
-    <a class="nav-link" href="/feeds/">Feeds</a>
-    <a class="nav-link" href="/client/">Clients</a>
-    <a class="nav-link active" aria-current="page" href="/torrent/">Torrents</a>
-    <a class="nav-link" href="/once/">Once</a>
+    {% include "navlinks.html" with active='torrent' %}
 {% endblock %}
 
 {% block content %}

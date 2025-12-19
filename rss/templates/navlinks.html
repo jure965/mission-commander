@@ -1,0 +1,4 @@
+<a class="nav-link{% if active == 'feed' %} active" aria-current="page{% endif %}" href="{% url 'feed-list' %}">Feeds</a>
+<a class="nav-link{% if active == 'client' %} active" aria-current="page{% endif %}" href="{% url 'client-list' %}">Clients</a>
+<a class="nav-link{% if active == 'torrent' %} active" aria-current="page{% endif %}" href="{% url 'torrent-list' %}">Torrents</a>
+<a class="nav-link{% if active == 'once' %} active" aria-current="page{% endif %}" href="{% url 'once-add' %}">Once</a>
