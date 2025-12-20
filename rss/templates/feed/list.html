@@ -1,12 +1,7 @@
-{% extends "base.html" %}
-
+{% extends "feed/base.html" %}
 {% load humanize %}
 
 {% block title %}Feeds{% endblock %}
-
-{% block nav_links %}
-    {% include "navlinks.html" with active='feed' %}
-{% endblock %}
 
 {% block content %}
     <h1>Feeds</h1>
