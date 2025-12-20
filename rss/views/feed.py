@@ -1,13 +1,19 @@
+import json
+import logging
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
 from rss.forms import FeedForm
 from rss.models import Feed
 
 from rss.tasks import fetch_feeds
+
+logger = logging.getLogger(__name__)
 
 
 class FeedListView(LoginRequiredMixin, ListView):
@@ -22,6 +28,23 @@ class FeedCreateView(LoginRequiredMixin, CreateView):
     model = Feed
     form_class = FeedForm
     success_url = reverse_lazy("feed-list")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        feed: Feed = self.object
+        schedule, created = IntervalSchedule.objects.get_or_create(
+            every=30,
+            period=IntervalSchedule.MINUTES,
+        )
+        feed.periodic_task = PeriodicTask.objects.create(
+            interval=schedule,
+            name=f"rss.parse_feed.{feed.id}",
+            task="rss.tasks.parse_feed",
+            kwargs=json.dumps({"feed_id": feed.id}),
+            enabled=True,
+        )
+        feed.save()
+        return response
 
 
 class FeedUpdateView(LoginRequiredMixin, UpdateView):

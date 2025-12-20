@@ -1,4 +1,5 @@
 from django.db import models
+from django_celery_beat.models import PeriodicTask
 
 
 class Feed(models.Model):
@@ -25,6 +26,14 @@ class Feed(models.Model):
     )
     last_activity = models.DateTimeField(blank=True, null=True)
     last_added = models.DateTimeField(blank=True, null=True, default=None)
+
+    periodic_task = models.OneToOneField(
+        to=PeriodicTask,
+        related_name="+",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
