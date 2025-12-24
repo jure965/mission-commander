@@ -94,6 +94,9 @@ task and choose __Run selected tasks__ action, then click __Go__.
 
 ## TODO
 
+- replace celery with dramatiq
+- replace celery-beat with periodiq
+- replace black and flake8 with ruff
 - add search for torrents
 - add some logging
 - view and manage torrents per client
