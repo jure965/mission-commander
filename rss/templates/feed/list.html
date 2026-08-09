@@ -30,7 +30,13 @@
             {% for feed in feeds %}
                 <tr>
                     <td><a href="{% url 'feed-update' pk=feed.pk %}">{% firstof feed.name feed.pk %}</a></td>
-                    <td>{{ feed.enabled|yesno:"Yes,No" }}</td>
+                    <td>
+                        {% if feed.enabled %}
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        {% else %}
+                        <i class="bi bi-x-circle-fill text-danger"></i>
+                        {% endif %}
+                    </td>
                     <td>{{ feed.created_at|naturaltime|default_if_none:"never" }}</td>
                     <td>{{ feed.last_activity|naturaltime|default_if_none:"never" }}</td>
                     <td>{{ feed.last_added|naturaltime|default_if_none:"never" }}</td>
