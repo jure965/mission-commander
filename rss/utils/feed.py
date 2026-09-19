@@ -8,9 +8,8 @@ import zoneinfo
 from datetime import datetime
 from time import mktime
 
-from transmission_rpc import Client
-
-from rss.models import Feed, Torrent, TorrentClient
+from rss.clients.backends import TorrentClient
+from rss.models import Feed, Torrent
 
 logger = logging.getLogger(__name__)
 
@@ -60,20 +59,11 @@ def do_send_torrents(torrent_ids, client_id, download_dir, start_paused):
     if not torrent_ids:
         return
 
-    tc = TorrentClient.objects.get(id=client_id)
-
-    rpc_client = Client(
-        protocol=tc.protocol,
-        host=tc.host,
-        port=tc.port,
-        username=tc.username,
-        password=tc.password,
-        path=tc.rpc_path,
-    )
+    tc = TorrentClient.from_client_id(client_id=client_id)
 
     for torrent_id in torrent_ids:
         torrent = Torrent.objects.get(id=torrent_id)
         logger.info(f"Sending torrent {torrent.title}")
-        rpc_client.add_torrent(
-            torrent.link, download_dir=download_dir or None, paused=start_paused
+        tc.add_torrent(
+            torrent=torrent.link, download_dir=download_dir or None, paused=start_paused
         )

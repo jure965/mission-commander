@@ -1,0 +1,2 @@
+class UnknownTorrentClient(Exception):
+    pass

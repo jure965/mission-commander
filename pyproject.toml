@@ -16,6 +16,7 @@ dependencies = [
     "feedparser>=6.0.12",
     "gunicorn>=23.0.0",
     "whitenoise>=6.11.0",
+    "qbittorrent-api>=2026.8.1",
 ]
 
 [dependency-groups]

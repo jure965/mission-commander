@@ -494,6 +494,7 @@ dependencies = [
     { name = "feedparser" },
     { name = "gunicorn" },
     { name = "psycopg2-binary" },
+    { name = "qbittorrent-api" },
     { name = "transmission-rpc" },
     { name = "whitenoise" },
 ]
@@ -516,6 +517,7 @@ requires-dist = [
     { name = "feedparser", specifier = ">=6.0.12" },
     { name = "gunicorn", specifier = ">=23.0.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.11" },
+    { name = "qbittorrent-api", specifier = ">=2026.8.1" },
     { name = "transmission-rpc", specifier = ">=7.0.11" },
     { name = "whitenoise", specifier = ">=6.11.0" },
 ]
@@ -725,6 +727,20 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/4e/8d/a762be14dae1c3bf280202ba3172020b2b0b4c537f94427435f19c413b72/pytokens-0.3.0.tar.gz", hash = "sha256:2f932b14ed08de5fcf0b391ace2642f858f1394c0857202959000b68ed7a458a", size = 17644, upload-time = "2025-11-05T13:36:35.34Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/84/25/d9db8be44e205a124f6c98bc0324b2bb149b7431c53877fc6d1038dddaf5/pytokens-0.3.0-py3-none-any.whl", hash = "sha256:95b2b5eaf832e469d141a378872480ede3f251a5a5041b8ec6e581d3ac71bbf3", size = 12195, upload-time = "2025-11-05T13:36:33.183Z" },
+]
+
+[[package]]
+name = "qbittorrent-api"
+version = "2026.8.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "packaging" },
+    { name = "requests" },
+    { name = "urllib3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/04/00/b7f41dfe8af6c3991f7182f9c14c46851379b8e66ac74c819f0952e9923d/qbittorrent_api-2026.8.1.tar.gz", hash = "sha256:9642c4528baee67216eab87022ce297048ac96df2f8c9f1cf920de078eb50b62", size = 1436760, upload-time = "2026-08-16T20:30:28.35Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e6/60/77c7b63675f12ba492dee9f8aabab0fc61ced5d2131a83bd7e92dcc335c1/qbittorrent_api-2026.8.1-py3-none-any.whl", hash = "sha256:c17260e416ec5832c3ed7aff46fb0e2b47e70b90de182e89c34133b9d4ce5a6e", size = 71970, upload-time = "2026-08-16T20:30:26.67Z" },
 ]
 
 [[package]]
