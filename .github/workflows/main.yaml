@@ -28,9 +28,10 @@ jobs:
         run: |
           sha=$(git rev-parse --short HEAD)
           ts=$(date +%s)
+          ref=${GITHUB_REF#refs/heads/}
           tag_latest="ghcr.io/${{ github.repository_owner }}/mission-commander:latest"
-          tag_sha_ts="ghcr.io/${{ github.repository_owner }}/mission-commander:${{ github.ref }}-$sha-$ts"
-          tag_ref="ghcr.io/${{ github.repository_owner }}/mission-commander:${{ github.ref }}"
+          tag_sha_ts="ghcr.io/${{ github.repository_owner }}/mission-commander:$ref-$sha-$ts"
+          tag_ref="ghcr.io/${{ github.repository_owner }}/mission-commander:$ref"
           echo "tag_latest=$tag_latest" >> $GITHUB_OUTPUT
           echo "tag_sha_ts=$tag_sha_ts" >> $GITHUB_OUTPUT
           echo "tag_ref=$tag_ref" >> $GITHUB_OUTPUT
