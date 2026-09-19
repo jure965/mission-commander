@@ -1,12 +1,12 @@
 {% extends "client/base.html" %}
 
-{% block title %}Torrent Clients{% endblock %}
+{% block title %}Torrent clients{% endblock %}
 
 {% block content %}
-    <h1>Torrent Clients</h1>
+    <h1>Torrent clients</h1>
     <nav class="d-flex justify-content-between" aria-label="Page navigation">
         <div>
-            <a class="btn btn-primary" href="{% url 'client-add' %}">Add</a>
+            <a class="btn btn-primary" href="{% url 'client-add' %}">Add torrent client</a>
         </div>
         <div>
             {% include 'pagenav.html' %}
