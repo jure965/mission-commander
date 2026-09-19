@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UsernameField
-from django.forms import ModelForm, CharField, PasswordInput, TextInput
+from django.forms import ModelForm, CharField, PasswordInput, TextInput, Select
 
 from rss.models import TorrentClient
 
@@ -34,9 +34,9 @@ class TorrentClientForm(ModelForm):
             "rpc_path": "RPC path",
         }
         widgets = {
-            "client_type": TextInput(attrs={"class": "form-control"}),
+            "client_type": Select(attrs={"class": "form-control"}),
             "name": TextInput(attrs={"class": "form-control"}),
-            "protocol": TextInput(attrs={"class": "form-control"}),
+            "protocol": Select(attrs={"class": "form-control"}),
             "host": TextInput(attrs={"class": "form-control"}),
             "port": TextInput(attrs={"class": "form-control"}),
             "rpc_path": TextInput(attrs={"class": "form-control"}),
