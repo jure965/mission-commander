@@ -1,13 +1,13 @@
 {% extends "client/base.html" %}
 
-{% block title %}Delete client{% endblock %}
+{% block title %}Delete torrent client{% endblock %}
 
 {% block content %}
-    <h1 class="danger">Delete client</h1>
+    <h1 class="danger">Delete torrent client</h1>
     <form method="post">
         <div>
             {% csrf_token %}
-            <p>Delete transmission client ({{ transmissionclient.id }}) <b>{{ transmissionclient.name }}</b>?</p>
+            <p>Delete torrent client ({{ torrentclient.id }}) <b>{{ torrentclient.name }}</b>?</p>
             <input class="btn btn-danger" type="submit" value="Delete">
         </div>
     </form>

@@ -1,3 +1,3 @@
 from .torrent import Torrent  # noqa
-from .transmission_client import TransmissionClient  # noqa
+from .torrent_client import TorrentClient  # noqa
 from .feed import Feed  # noqa

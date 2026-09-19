@@ -1,9 +1,9 @@
 {% extends "client/base.html" %}
 
-{% block title %}Clients{% endblock %}
+{% block title %}Torrent Clients{% endblock %}
 
 {% block content %}
-    <h1>Clients</h1>
+    <h1>Torrent Clients</h1>
     <nav class="d-flex justify-content-between" aria-label="Page navigation">
         <div>
             <a class="btn btn-primary" href="{% url 'client-add' %}">Add</a>
@@ -31,6 +31,6 @@
             </tbody>
         </table>
     {% else %}
-        <p>Add a Transmission client for mission-commander to control.</p>
+        <p>Add a torrent client.</p>
     {% endif %}
 {% endblock %}

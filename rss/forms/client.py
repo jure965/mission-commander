@@ -1,10 +1,10 @@
 from django.contrib.auth.forms import UsernameField
 from django.forms import ModelForm, CharField, PasswordInput, TextInput
 
-from rss.models import TransmissionClient
+from rss.models import TorrentClient
 
 
-class TransmissionClientForm(ModelForm):
+class TorrentClientForm(ModelForm):
     template_name = "client/form.html"
 
     username = UsernameField(
@@ -19,8 +19,9 @@ class TransmissionClientForm(ModelForm):
     )
 
     class Meta:
-        model = TransmissionClient
+        model = TorrentClient
         fields = (
+            "client_type",
             "name",
             "protocol",
             "host",
@@ -33,6 +34,7 @@ class TransmissionClientForm(ModelForm):
             "rpc_path": "RPC path",
         }
         widgets = {
+            "client_type": TextInput(attrs={"class": "form-control"}),
             "name": TextInput(attrs={"class": "form-control"}),
             "protocol": TextInput(attrs={"class": "form-control"}),
             "host": TextInput(attrs={"class": "form-control"}),

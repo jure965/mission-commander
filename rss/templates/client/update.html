@@ -1,6 +1,6 @@
 {% extends "client/base.html" %}
 
-{% block title %}Update client{% endblock %}
+{% block title %}Update torrent client{% endblock %}
 
 {% block content %}
     <h1>Update client</h1>
@@ -9,7 +9,7 @@
             {% csrf_token %}
             {{ form }}
             <div>
-                <a class="btn btn-danger" href="{% url 'client-delete' pk=transmissionclient.pk %}">Delete</a>
+                <a class="btn btn-danger" href="{% url 'client-delete' pk=torrentclient.pk %}">Delete</a>
                 <input type="submit" class="btn btn-primary" value="Update">
             </div>
         </div>

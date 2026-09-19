@@ -10,7 +10,7 @@ from time import mktime
 
 from transmission_rpc import Client
 
-from rss.models import Feed, Torrent, TransmissionClient
+from rss.models import Feed, Torrent, TorrentClient
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 def preprocess(entries):
     utc = zoneinfo.ZoneInfo("Etc/UTC")
     for entry in entries:
-        # add proper timezone aware datetime property from time_struct
+        # add proper timezone-aware datetime property from time_struct
         timestamp = mktime(entry.published_parsed)
         entry.pub = datetime.fromtimestamp(timestamp).replace(tzinfo=utc)
 
@@ -60,7 +60,7 @@ def do_send_torrents(torrent_ids, client_id, download_dir, start_paused):
     if not torrent_ids:
         return
 
-    tc = TransmissionClient.objects.get(id=client_id)
+    tc = TorrentClient.objects.get(id=client_id)
 
     rpc_client = Client(
         protocol=tc.protocol,

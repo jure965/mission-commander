@@ -1,7 +1,7 @@
 from django.contrib import admin, messages
 from django.utils.translation import ngettext
 
-from rss.models import Torrent, Feed, TransmissionClient
+from rss.models import Torrent, Feed, TorrentClient
 from rss.tasks import parse_feed
 
 
@@ -30,6 +30,6 @@ class FeedAdmin(admin.ModelAdmin):
         self.message_user(request, message, messages.SUCCESS)
 
 
-@admin.register(TransmissionClient)
-class TransmissionClientAdmin(admin.ModelAdmin):
+@admin.register(TorrentClient)
+class TorrentClientAdmin(admin.ModelAdmin):
     pass

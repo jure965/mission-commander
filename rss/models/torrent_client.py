@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class TransmissionClient(models.Model):
+class TorrentClient(models.Model):
     class ClientType(models.TextChoices):
         TRANSMISSION = "transmission", "transmission"
         QBITTORRENT = "qbittorrent", "qbittorrent"

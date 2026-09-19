@@ -1,2 +1,2 @@
-from .client import TransmissionClientForm  # noqa
+from .client import TorrentClientForm  # noqa
 from .feed import FeedForm  # noqa
