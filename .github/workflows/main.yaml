@@ -5,10 +5,7 @@ on:
     branches:
       - main
     tags:
-      - v*
-
-env:
-  IMAGE_NAME: mission-commander
+      - "*"
 
 jobs:
   build-push:
@@ -21,27 +18,27 @@ jobs:
       group: ${{ github.ref }}
     steps:
       - name: Git checkout
-        uses: actions/checkout@v5
-
-      - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
+        uses: actions/checkout@v7
 
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Push image
+      - name: Get tag info
+        id: tags
         run: |
-          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          sha=$(git rev-parse --short HEAD)
+          ts=$(date +%s)
+          tag_latest="ghcr.io/${{ github.repository_owner }}/mission-commander:latest"
+          tag_sha_ts="ghcr.io/${{ github.repository_owner }}/mission-commander:${{ github.ref }}-$sha-$ts"
+          tag_ref="ghcr.io/${{ github.repository_owner }}/mission-commander:${{ github.ref }}"
+          echo "tag_latest=$tag_latest" >> $GITHUB_OUTPUT
+          echo "tag_sha_ts=$tag_sha_ts" >> $GITHUB_OUTPUT
+          echo "tag_ref=$tag_ref" >> $GITHUB_OUTPUT
 
-          # This changes all uppercase characters to lowercase.
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          # This strips the git ref prefix from the version.
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          # This strips the "v" prefix from the tag name.
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          # This uses the Docker `latest` tag convention.
-          [ "$VERSION" == "main" ] && VERSION=latest
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+      - name: Build and push image
+        run: |
+          docker build . --file Dockerfile \
+            --tag ${{ steps.tags.outputs.tag_latest }} \
+            --tag ${{ steps.tags.outputs.tag_sha_ts }} \
+            --tag ${{ steps.tags.outputs.tag_ref }} \
+            --push
