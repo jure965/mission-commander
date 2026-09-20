@@ -1,3 +1,8 @@
+x-common-environment: &common-environment
+  SECRET_KEY: "change-me"
+  DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
+  CELERY_BROKER_URL: "redis://redis:6379"
+
 services:
   redis:
     image: redis:latest
@@ -28,9 +33,7 @@ services:
   database-migration:
     image: ghcr.io/jure965/mission-commander:latest
     environment:
-      SECRET_KEY: $SECRET_KEY
-      DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
-      CELERY_BROKER_URL: "redis://redis:6379"
+      <<: *common-environment
     command: python manage.py migrate
     depends_on:
       postgres:
@@ -41,9 +44,7 @@ services:
   collect-static-files:
     image: ghcr.io/jure965/mission-commander:latest
     environment:
-      SECRET_KEY: $SECRET_KEY
-      DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
-      CELERY_BROKER_URL: "redis://redis:6379"
+      <<: *common-environment
     command: python manage.py collectstatic --noinput
     volumes:
       - staticfiles:/app/static
@@ -56,12 +57,9 @@ services:
         condition: service_healthy
 
   web:
-    env_file: .env
     image: ghcr.io/jure965/mission-commander:latest
     environment:
-      SECRET_KEY: $SECRET_KEY
-      DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
-      CELERY_BROKER_URL: "redis://redis:6379"
+      <<: *common-environment
     ports:
       - "8000:8000"
     command: gunicorn mission_commander.wsgi -b 0.0.0.0:8000
@@ -77,12 +75,9 @@ services:
     restart: unless-stopped
 
   worker:
-    env_file: .env
     image: ghcr.io/jure965/mission-commander:latest
     environment:
-      SECRET_KEY: $SECRET_KEY
-      DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
-      CELERY_BROKER_URL: "redis://redis:6379"
+      <<: *common-environment
     command: celery -A mission_commander worker --concurrency 1
     depends_on:
       database-migration:
@@ -94,12 +89,9 @@ services:
     restart: unless-stopped
 
   beat:
-    env_file: .env
     image: ghcr.io/jure965/mission-commander:latest
     environment:
-      SECRET_KEY: $SECRET_KEY
-      DATABASE_URL: "psql://postgres:postgres@postgres:5432/postgres"
-      CELERY_BROKER_URL: "redis://redis:6379"
+      <<: *common-environment
     command: celery -A mission_commander beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
     depends_on:
       database-migration:

@@ -10,6 +10,7 @@ from rss.views import (
     ClientCreateView,
     LoginView,
     LogoutView,
+    SetupView,
     ClientUpdateView,
     ClientDeleteView,
     TorrentListView,
@@ -44,4 +45,5 @@ urlpatterns = [
     ),
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
+    path("setup/", SetupView.as_view(), name="setup"),
 ]

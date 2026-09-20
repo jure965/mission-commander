@@ -1,14 +1,14 @@
 # mission-commander :rocket:
 
-This software stack works as an RSS feed bridge for Transmission clients.
+This software stack works as an RSS feed bridge for Transmission and qBittorrent clients.
 
 Inspired by [transmission-rss](https://github.com/nning/transmission-rss) project.
 
 Features:
 
 - manage configuration and RSS feeds through web UI
-- works with one or more Transmission clients
-- feeds can be set to expire, i.e. stop fetching certain feeds after set date
+- works with one or more Transmission and qBittorrent clients
+- feeds can be set to expire, i.e., stop fetching certain feeds after a set date
 - easy deployment with docker
 
 ## Development setup
@@ -17,7 +17,7 @@ Clone the repo.
 
 Copy _.env.example_ to _.env_ file. Add `DEBUG=true` to _.env_ file.
 
-Start postgres and redis services using docker compose:
+Start Postgres and Redis services using docker compose:
 
 ```shell
 docker compose -f compose-dev.yaml up -d
@@ -29,7 +29,6 @@ Use uv to create a virtual environment and install packages.
 uv sync
 uv run python manage.py migrate
 uv run manage.py collectstatic
-uv run manage.py createsuperuser
 uv run manage.py runserver
 ```
 
@@ -47,58 +46,25 @@ uv run celery -A mission_commander beat -l INFO --scheduler django_celery_beat.s
 
 ## Production deployment
 
-First have a fresh host or vm with docker, including docker compose plugin.
+Prerequisites are a host or vm and docker with docker compose plugin installed.
 
-Clone this repo and cd into cloned folder.
+Create a folder on the host for the application.
 
-Copy _.env.example_ to _.env_ file. Edit the contents of _.env_ file, change the SECRET_KEY to
-some random string.
+Copy `compose.yaml` file from this repo to the host in the created folder.
 
-Run docker compose:
+Edit `compose.yaml` file, change `SECRET_KEY` variable value to a random string.
 
-```shell
-docker compose up -d
-docker compose exec web bash
-# now inside web container:
-uv run python manage.py createsuperuser
-# follow instructions, then leave container:
-exit
-```
+Change the current directory to the created folder and run `docker compose up -d`.
 
-Now access the web UI via http://<your_host_ip>:8000/admin
+Now access the web UI via http://<your_host_ip>:8000/setup/ and follow instructions for first time setup.
 
-Log in with your superuser that you set earlier.
+To update the deployment in the future, run `docker compose pull && docker compose down && docker compose up -d`.
 
-Open __Intervals__, add new interval with number of periods __1__ and
-interval period __Hours__. You may customize this to your liking.
-
-Open __Periodic tasks__, add new periodic task with name __fetch feeds__, select
-a registered task __rss.tasks.fetch_feeds__ and select __Interval schedule__ that
-was created in previous step.
-
-### Update deployment
-
-```shell
-docker compose down
-git pull --ff-only
-docker compose pull
-docker compose up -d
-```
-
-## Setup and usage
-
-In Django admin pages, add a transmission client, then add a feed.
-
-You can manually trigger _fetch feeds_ task in __Periodic tasks__, tick _fetch feeds_
-task and choose __Run selected tasks__ action, then click __Go__.
+From time to time, check if there is a new version of `compose.yaml` in the repo.
 
 ## TODO
 
-- replace celery with dramatiq
-- replace celery-beat with periodiq
-- replace black and flake8 with ruff
 - add search for torrents
-- add some logging
 - view and manage torrents per client
 
 If additional features are desired, please create an issue on GitHub.
