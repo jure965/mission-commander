@@ -31,7 +31,7 @@ class TransmissionClient(TorrentClient):
             port=tc_info.port,
             username=tc_info.username,
             password=tc_info.password,
-            path=tc_info.rpc_path,
+            path=tc_info.base_path,
         )
 
     def add_torrent(self, torrent, download_dir, paused):

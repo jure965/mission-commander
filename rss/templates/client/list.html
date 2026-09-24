@@ -25,7 +25,7 @@
             {% for client in clients %}
                 <tr>
                     <td><a href="{% url 'client-update' pk=client.pk %}">{{ client.name }}</a></td>
-                    <td>{{ client.protocol }}://{{ client.host }}:{{ client.port }}{{ client.rpc_path }}</td>
+                    <td>{{ client.protocol }}://{{ client.host }}:{{ client.port }}{{ client.base_path }}</td>
                 </tr>
             {% endfor %}
             </tbody>

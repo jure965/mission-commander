@@ -28,16 +28,16 @@ class TorrentClientForm(ModelForm):
             "port",
             "username",
             "password",
-            "rpc_path",
+            "base_path",
         )
         labels = {
-            "rpc_path": "RPC path",
+            "base_path": "Base path",
         }
         widgets = {
             "client_type": Select(attrs={"class": "form-control"}),
             "name": TextInput(attrs={"class": "form-control"}),
-            "protocol": Select(attrs={"class": "form-control"}),
+            "protocol": Select(attrs={"class": "form-control form-select"}),
             "host": TextInput(attrs={"class": "form-control"}),
             "port": TextInput(attrs={"class": "form-control"}),
-            "rpc_path": TextInput(attrs={"class": "form-control"}),
+            "base_path": TextInput(attrs={"class": "form-control"}),
         }
