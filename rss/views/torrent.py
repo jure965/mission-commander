@@ -17,6 +17,7 @@ class TorrentListView(LoginRequiredMixin, ListView):
     template_name = "torrent/list.html"
     model = Torrent
     context_object_name = "torrents"
+    ordering = ["-created_at"]
 
 
 class TorrentDetailView(LoginRequiredMixin, DetailView):

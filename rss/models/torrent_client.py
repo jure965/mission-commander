@@ -23,5 +23,8 @@ class TorrentClient(models.Model):
         max_length=50, choices=ClientType.choices, default=ClientType.TRANSMISSION
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return f"{self.name} ({self.host}:{self.port})"  # noqa: E231

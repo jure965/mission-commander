@@ -11,6 +11,7 @@ class ClientListView(LoginRequiredMixin, ListView):
     template_name = "client/list.html"
     model = TorrentClient
     context_object_name = "clients"
+    ordering = ["-created_at"]
 
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
