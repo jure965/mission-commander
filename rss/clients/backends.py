@@ -71,14 +71,10 @@ class QbittorrentClient(TorrentClient):
         )
 
 
-def get_torrent_client(client_id: int) -> TorrentClient:
-    tc_info = TorrentClientModel.objects.get(id=client_id)
+def get_torrent_client(client: TorrentClientModel) -> TorrentClient:
+    if client.client_type == TorrentClientModel.ClientType.TRANSMISSION:
+        return TransmissionClient(client)
+    elif client.client_type == TorrentClientModel.ClientType.QBITTORRENT:
+        return QbittorrentClient(client)
 
-    if tc_info.client_type == TorrentClientModel.ClientType.TRANSMISSION:
-        return TransmissionClient(tc_info)
-    elif tc_info.client_type == TorrentClientModel.ClientType.QBITTORRENT:
-        return QbittorrentClient(tc_info)
-
-    raise UnknownTorrentClient(
-        f"torrent client type '{tc_info.client_type}' is unknown to me"
-    )
+    raise UnknownTorrentClient(f"Unknown torrent client type '{client.client_type}'")

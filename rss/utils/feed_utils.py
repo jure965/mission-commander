@@ -8,6 +8,8 @@ import zoneinfo
 from datetime import datetime
 from time import mktime
 
+from django.utils import timezone
+
 from rss.clients.backends import get_torrent_client
 from rss.models import Feed, Torrent
 
@@ -22,7 +24,7 @@ def preprocess(entries):
         entry.pub = datetime.fromtimestamp(timestamp).replace(tzinfo=utc)
 
 
-def do_parse_feed(feed: Feed) -> List[Torrent]:
+def get_torrents(feed: Feed) -> List[Torrent]:
     d = feedparser.parse(feed.url)
 
     preprocess(d.entries)
@@ -43,34 +45,55 @@ def do_parse_feed(feed: Feed) -> List[Torrent]:
     torrents = []
 
     for entry in d.entries:
-        torrents.append(
-            Torrent.objects.get_or_create(
-                title=entry.title,
-                link=entry.link,
-                published=entry.pub,
+        for torrent_client in feed.torrent_clients.all():
+            torrents.append(
+                Torrent.objects.get_or_create(
+                    title=entry.title,
+                    link=entry.link,
+                    published=entry.pub,
+                    feed=feed,
+                    torrent_client=torrent_client,
+                )
             )
-        )
 
     # return only newly created torrents
     return [t[0] for t in torrents if t[1]]
 
 
-def do_send_torrents(
-    torrent_ids: list[int], client_id: int, download_dir: str, start_paused: bool
-):
-    for torrent_id in torrent_ids:
-        do_send_torrent(
-            torrent_id=torrent_id,
-            client_id=client_id,
-            download_dir=download_dir,
-            start_paused=start_paused,
-        )
-
-
-def do_send_torrent(torrent_id, client_id, download_dir, start_paused):
+def send_torrent(torrent_id):
     torrent = Torrent.objects.get(id=torrent_id)
-    torrent_client = get_torrent_client(client_id=client_id)
-    logger.info(f"Sending torrent '{torrent.title}' to '{torrent_client.tc_info.name}'")
+    torrent_client = get_torrent_client(client=torrent.torrent_client)
+
     torrent_client.add_torrent(
-        torrent=torrent.link, download_dir=download_dir or None, paused=start_paused
+        torrent=torrent.link,
+        download_dir=torrent.feed.download_dir or None,
+        paused=torrent.feed.start_paused,
     )
+
+    logger.info(f"Sent torrent '{torrent.title}' to '{torrent_client.tc_info.name}'")
+
+
+def parse_feed(feed_id):
+    feed = Feed.objects.get(id=feed_id)
+
+    if not feed.torrent_clients.exists():
+        return None
+
+    now = timezone.now()
+    if feed.expires_at is not None and feed.expires_at < now:
+        feed.enabled = False
+        feed.save()
+        return None
+
+    torrents = get_torrents(feed)
+
+    if not torrents:
+        return None
+
+    feed.last_activity = timezone.now()
+    feed.save()
+
+    feed.last_added = timezone.now()
+    feed.save()
+
+    return torrents

@@ -15,7 +15,6 @@ from rss.views import (
     ClientDeleteView,
     TorrentListView,
     TorrentDetailView,
-    OnceCreateView,
     FeedCheckView,
     TorrentUpdateView,
     TorrentDeleteView,
@@ -25,7 +24,6 @@ from rss.views import (
 urlpatterns = [
     path("", RedirectView.as_view(url=reverse_lazy("feed-list")), name="root"),
     path("feeds/", FeedListView.as_view(), name="feed-list"),
-    path("once/", OnceCreateView.as_view(), name="once-add"),
     path("feed/add/", FeedCreateView.as_view(), name="feed-add"),
     path("feed/check/", FeedCheckView.as_view(), name="feed-check"),
     path("feed/<int:pk>/", FeedUpdateView.as_view(), name="feed-update"),
