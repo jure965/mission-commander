@@ -4,7 +4,7 @@ from celery import Celery
 from django.utils import timezone
 
 from rss.models import Feed
-from rss.utils.feed import do_parse_feed, do_send_torrents
+from rss.utils.feed import do_parse_feed, do_send_torrents, do_send_torrent
 
 app = Celery("rss")
 
@@ -60,6 +60,18 @@ def send_torrents(
 ):
     do_send_torrents(
         torrent_ids=torrent_ids,
+        client_id=client_id,
+        download_dir=download_dir,
+        start_paused=start_paused,
+    )
+
+
+@app.task
+def send_torrent(
+    torrent_id: int, client_id: int, download_dir: str, start_paused: bool
+):
+    do_send_torrent(
+        torrent_id=torrent_id,
         client_id=client_id,
         download_dir=download_dir,
         start_paused=start_paused,

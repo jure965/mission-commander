@@ -1,3 +1,5 @@
+from typing import Literal, cast, get_args
+
 from transmission_rpc import Client as TransmissionAPIClient
 from qbittorrentapi import Client as QbittorrentAPIClient
 
@@ -6,32 +8,40 @@ from rss.models import TorrentClient as TorrentClientModel
 
 
 class TorrentClient:
-    @staticmethod
-    def from_client_id(client_id: int):
-        tc_info = TorrentClientModel.objects.get(id=client_id)
-
-        if tc_info.client_type == TorrentClientModel.ClientType.TRANSMISSION:
-            return TransmissionClient(tc_info)
-        elif tc_info.client_type == TorrentClientModel.ClientType.QBITTORRENT:
-            return QbittorrentClient(tc_info)
-
-        raise UnknownTorrentClient(
-            f"torrent client type '{tc_info.client_type}' is unknown to me"
-        )
+    def __init__(self, tc_info: TorrentClientModel):
+        self.tc_info = tc_info
 
     def add_torrent(self, torrent, download_dir, paused):
         pass
 
 
+ProtocolLiteralType = Literal["http", "https"]
+
+
+def get_protocol_literal(protocol: str) -> ProtocolLiteralType:
+    valid_protocols = get_args(ProtocolLiteralType)
+    if protocol not in valid_protocols:
+        raise Exception(f"Invalid protocol '{protocol}'")
+    return cast(ProtocolLiteralType, protocol)
+
+
+def get_base_path(base_path: str) -> str:
+    if base_path.startswith("/"):
+        return base_path
+    return f"/{base_path}"
+
+
 class TransmissionClient(TorrentClient):
-    def __init__(self, tc_info):
+    def __init__(self, tc_info: TorrentClientModel):
+        super().__init__(tc_info)
+        base_path = get_base_path(tc_info.base_path)
         self.client = TransmissionAPIClient(
-            protocol=tc_info.protocol,
+            protocol=get_protocol_literal(tc_info.protocol),
             host=tc_info.host,
-            port=tc_info.port,
+            port=int(tc_info.port),
             username=tc_info.username,
             password=tc_info.password,
-            path=tc_info.base_path,
+            path=base_path,
         )
 
     def add_torrent(self, torrent, download_dir, paused):
@@ -44,8 +54,11 @@ class TransmissionClient(TorrentClient):
 
 class QbittorrentClient(TorrentClient):
     def __init__(self, tc_info: TorrentClientModel):
+        super().__init__(tc_info)
+        self.tc_info = tc_info
+        base_path = get_base_path(tc_info.base_path)
         self.client = QbittorrentAPIClient(
-            host=f"{tc_info.host}:{tc_info.port}",
+            host=f"{tc_info.protocol}://{tc_info.host}:{tc_info.port}{base_path}",
             username=tc_info.username,
             password=tc_info.password,
         )
@@ -56,3 +69,16 @@ class QbittorrentClient(TorrentClient):
             save_path=download_dir,
             is_paused=paused,
         )
+
+
+def get_torrent_client(client_id: int) -> TorrentClient:
+    tc_info = TorrentClientModel.objects.get(id=client_id)
+
+    if tc_info.client_type == TorrentClientModel.ClientType.TRANSMISSION:
+        return TransmissionClient(tc_info)
+    elif tc_info.client_type == TorrentClientModel.ClientType.QBITTORRENT:
+        return QbittorrentClient(tc_info)
+
+    raise UnknownTorrentClient(
+        f"torrent client type '{tc_info.client_type}' is unknown to me"
+    )

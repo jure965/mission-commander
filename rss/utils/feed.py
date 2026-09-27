@@ -8,7 +8,7 @@ import zoneinfo
 from datetime import datetime
 from time import mktime
 
-from rss.clients.backends import TorrentClient
+from rss.clients.backends import get_torrent_client
 from rss.models import Feed, Torrent
 
 logger = logging.getLogger(__name__)
@@ -55,15 +55,22 @@ def do_parse_feed(feed: Feed) -> List[Torrent]:
     return [t[0] for t in torrents if t[1]]
 
 
-def do_send_torrents(torrent_ids, client_id, download_dir, start_paused):
-    if not torrent_ids:
-        return
-
-    tc = TorrentClient.from_client_id(client_id=client_id)
-
+def do_send_torrents(
+    torrent_ids: list[int], client_id: int, download_dir: str, start_paused: bool
+):
     for torrent_id in torrent_ids:
-        torrent = Torrent.objects.get(id=torrent_id)
-        logger.info(f"Sending torrent {torrent.title}")
-        tc.add_torrent(
-            torrent=torrent.link, download_dir=download_dir or None, paused=start_paused
+        do_send_torrent(
+            torrent_id=torrent_id,
+            client_id=client_id,
+            download_dir=download_dir,
+            start_paused=start_paused,
         )
+
+
+def do_send_torrent(torrent_id, client_id, download_dir, start_paused):
+    torrent = Torrent.objects.get(id=torrent_id)
+    torrent_client = get_torrent_client(client_id=client_id)
+    logger.info(f"Sending torrent '{torrent.title}' to '{torrent_client.tc_info.name}'")
+    torrent_client.add_torrent(
+        torrent=torrent.link, download_dir=download_dir or None, paused=start_paused
+    )
