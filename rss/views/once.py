@@ -28,7 +28,7 @@ class OnceCreateView(LoginRequiredMixin, CreateView):
             return self.form_invalid(form)
 
         feed = form.instance
-        clients = form.cleaned_data["transmission_clients"].all()
+        clients = form.cleaned_data["torrent_clients"].all()
 
         torrents = do_parse_feed(feed)
 

@@ -21,7 +21,7 @@ def fetch_feeds():
 def parse_feed(feed_id: int):
     feed = Feed.objects.get(id=feed_id)
 
-    if not feed.transmission_clients.exists():
+    if not feed.torrent_clients.exists():
         return
 
     now = timezone.now()
@@ -32,18 +32,18 @@ def parse_feed(feed_id: int):
 
     torrents = do_parse_feed(feed)
 
-    feed.last_activity = timezone.now()
-    feed.save()
-
     if not torrents:
         return
+
+    feed.last_activity = timezone.now()
+    feed.save()
 
     feed.last_added = timezone.now()
     feed.save()
 
     torrent_ids = [t.pk for t in torrents]
 
-    clients = feed.transmission_clients.all()
+    clients = feed.torrent_clients.all()
 
     for client in clients:
         send_torrents.delay(

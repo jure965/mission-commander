@@ -20,13 +20,13 @@ class FeedForm(ModelForm):
             "ignore_newer_than",
             "start_paused",
             "chronological",
-            "transmission_clients",
+            "torrent_clients",
         )
         labels = {
             "enabled": "Enabled",
             "start_paused": "Start paused",
             "chronological": "Chronological",
-            "transmission_clients": "Clients",
+            "torrent_clients": "Clients",
         }
         widgets = {
             "enabled": CheckboxInput(attrs={"class": "form-check-input"}),
@@ -39,7 +39,7 @@ class FeedForm(ModelForm):
             "ignore_newer_than": DateInput(attrs={"class": "form-control"}),
             "start_paused": CheckboxInput(attrs={"class": "form-check-input"}),
             "chronological": CheckboxInput(attrs={"class": "form-check-input"}),
-            "transmission_clients": SelectMultiple(attrs={"class": "form-select"}),
+            "torrent_clients": SelectMultiple(attrs={"class": "form-select"}),
         }
         help_texts = {
             "url": None,
@@ -50,5 +50,5 @@ class FeedForm(ModelForm):
             "ignore_newer_than": None,
             "start_paused": None,
             "chronological": None,
-            "transmission_clients": None,
+            "torrent_clients": None,
         }

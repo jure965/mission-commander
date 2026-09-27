@@ -21,7 +21,7 @@ class Feed(models.Model):
     chronological = models.BooleanField(
         default=True, help_text="Add torrents in chronological order"
     )
-    transmission_clients = models.ManyToManyField(
+    torrent_clients = models.ManyToManyField(
         to="rss.TorrentClient", related_name="feeds", blank=True
     )
     last_activity = models.DateTimeField(blank=True, null=True)
