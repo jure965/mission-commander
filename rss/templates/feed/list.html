@@ -38,7 +38,7 @@
                         {% endif %}
                     </td>
                     <td>{{ feed.created_at|naturaltime|default_if_none:"never" }}</td>
-                    <td>{{ feed.last_activity|naturaltime|default_if_none:"never" }}</td>
+                    <td>{{ feed.last_check|naturaltime|default_if_none:"never" }}</td>
                     <td>{{ feed.last_added|naturaltime|default_if_none:"never" }}</td>
                 </tr>
             {% endfor %}

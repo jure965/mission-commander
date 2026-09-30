@@ -1,4 +1,10 @@
-from django.forms import ModelForm, CheckboxInput, TextInput, SelectMultiple
+from django.forms import (
+    ModelForm,
+    CheckboxInput,
+    TextInput,
+    SelectMultiple,
+    BooleanField,
+)
 
 from rss.models import Feed
 from rss.widgets.date import DateInput
@@ -6,6 +12,32 @@ from rss.widgets.date import DateInput
 
 class FeedForm(ModelForm):
     template_name = "feed/form.html"
+    enabled = BooleanField(
+        required=False,
+        initial=True,
+        label="Enabled",
+        widget=CheckboxInput(attrs={"class": "form-check-input"}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if (
+            self.instance
+            and self.instance.pk
+            and hasattr(self.instance, "periodic_task")
+        ):
+            self.initial["enabled"] = self.instance.enabled
+
+    def save(self, commit: bool = True):
+        feed = super().save(False)
+        enabled = self.cleaned_data.get("enabled", False)
+        if hasattr(feed, "periodic_task") and feed.periodic_task:
+            feed.periodic_task.enabled = enabled
+            if commit:
+                feed.periodic_task.save()
+        if commit:
+            feed.save()
+        return feed
 
     class Meta:
         model = Feed
@@ -23,13 +55,11 @@ class FeedForm(ModelForm):
             "torrent_clients",
         )
         labels = {
-            "enabled": "Enabled",
             "start_paused": "Start paused",
             "chronological": "Chronological",
             "torrent_clients": "Clients",
         }
         widgets = {
-            "enabled": CheckboxInput(attrs={"class": "form-check-input"}),
             "name": TextInput(attrs={"class": "form-control"}),
             "url": TextInput(attrs={"class": "form-control"}),
             "regex_filter": TextInput(attrs={"class": "form-control"}),

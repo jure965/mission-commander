@@ -76,6 +76,9 @@ def send_torrent(torrent_id):
 def parse_feed(feed_id):
     feed = Feed.objects.get(id=feed_id)
 
+    feed.last_check = timezone.now()
+    feed.save()
+
     if not feed.torrent_clients.exists():
         return None
 
@@ -89,9 +92,6 @@ def parse_feed(feed_id):
 
     if not torrents:
         return None
-
-    feed.last_activity = timezone.now()
-    feed.save()
 
     feed.last_added = timezone.now()
     feed.save()
