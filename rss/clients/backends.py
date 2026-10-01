@@ -14,6 +14,9 @@ class TorrentClient:
     def add_torrent(self, torrent, download_dir, paused):
         pass
 
+    def get_torrent_names(self):
+        pass
+
 
 ProtocolLiteralType = Literal["http", "https"]
 
@@ -51,6 +54,10 @@ class TransmissionClient(TorrentClient):
             paused=paused,
         )
 
+    def get_torrent_names(self):
+        torrents = self.client.get_torrents()
+        return [t.name for t in torrents]
+
 
 class QbittorrentClient(TorrentClient):
     def __init__(self, tc_info: TorrentClientModel):
@@ -69,6 +76,10 @@ class QbittorrentClient(TorrentClient):
             save_path=download_dir,
             is_paused=paused,
         )
+
+    def get_torrent_names(self):
+        torrents = self.client.torrents_info()
+        return [t["name"] for t in torrents]
 
 
 def get_torrent_client(client: TorrentClientModel) -> TorrentClient:

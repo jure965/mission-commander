@@ -45,23 +45,26 @@ def get_torrents(feed: Feed) -> List[Torrent]:
     torrents = []
 
     for entry in d.entries:
-        torrents.append(
-            Torrent.objects.get_or_create(
-                title=entry.title,
-                link=entry.link,
-                published=entry.pub,
-                feed=feed,
-                torrent_client=feed.torrent_client,
-            )
+        torrent, created = Torrent.objects.get_or_create(
+            title=entry.title,
+            link=entry.link,
+            published=entry.pub,
+            feed=feed,
+            torrent_client=feed.torrent_client,
         )
+        torrents.append(torrent)
 
-    # return only newly created torrents
-    return [t[0] for t in torrents if t[1]]
+    return torrents
 
 
 def send_torrent(torrent_id):
     torrent = Torrent.objects.get(id=torrent_id)
     torrent_client = get_torrent_client(client=torrent.torrent_client)
+
+    torrent_names = torrent_client.get_torrent_names()
+
+    if torrent.title in torrent_names:
+        return
 
     torrent_client.add_torrent(
         torrent=torrent.link,
