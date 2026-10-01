@@ -45,16 +45,15 @@ def get_torrents(feed: Feed) -> List[Torrent]:
     torrents = []
 
     for entry in d.entries:
-        for torrent_client in feed.torrent_clients.all():
-            torrents.append(
-                Torrent.objects.get_or_create(
-                    title=entry.title,
-                    link=entry.link,
-                    published=entry.pub,
-                    feed=feed,
-                    torrent_client=torrent_client,
-                )
+        torrents.append(
+            Torrent.objects.get_or_create(
+                title=entry.title,
+                link=entry.link,
+                published=entry.pub,
+                feed=feed,
+                torrent_client=feed.torrent_client,
             )
+        )
 
     # return only newly created torrents
     return [t[0] for t in torrents if t[1]]
@@ -79,7 +78,7 @@ def parse_feed(feed_id):
     feed.last_check = timezone.now()
     feed.save()
 
-    if not feed.torrent_clients.exists():
+    if not feed.torrent_client:
         return None
 
     now = timezone.now()

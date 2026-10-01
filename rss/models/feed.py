@@ -50,8 +50,12 @@ class Feed(models.Model):
     chronological = models.BooleanField(
         default=True, help_text="Add torrents in chronological order"
     )
-    torrent_clients = models.ManyToManyField(
-        to="rss.TorrentClient", related_name="feeds", blank=True
+    torrent_client = models.ForeignKey(
+        to="rss.TorrentClient",
+        related_name="feeds",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
     )
     last_check = models.DateTimeField(blank=True, null=True)
     last_added = models.DateTimeField(blank=True, null=True, default=None)

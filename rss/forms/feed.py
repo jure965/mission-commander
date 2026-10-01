@@ -2,8 +2,8 @@ from django.forms import (
     ModelForm,
     CheckboxInput,
     TextInput,
-    SelectMultiple,
     BooleanField,
+    Select,
 )
 
 from rss.models import Feed
@@ -52,12 +52,12 @@ class FeedForm(ModelForm):
             "ignore_newer_than",
             "start_paused",
             "chronological",
-            "torrent_clients",
+            "torrent_client",
         )
         labels = {
             "start_paused": "Start paused",
             "chronological": "Chronological",
-            "torrent_clients": "Clients",
+            "torrent_client": "Torrent client",
         }
         widgets = {
             "name": TextInput(attrs={"class": "form-control"}),
@@ -69,7 +69,7 @@ class FeedForm(ModelForm):
             "ignore_newer_than": DateInput(attrs={"class": "form-control"}),
             "start_paused": CheckboxInput(attrs={"class": "form-check-input"}),
             "chronological": CheckboxInput(attrs={"class": "form-check-input"}),
-            "torrent_clients": SelectMultiple(attrs={"class": "form-select"}),
+            "torrent_client": Select(attrs={"class": "form-control form-select"}),
         }
         help_texts = {
             "url": None,
@@ -80,5 +80,5 @@ class FeedForm(ModelForm):
             "ignore_newer_than": None,
             "start_paused": None,
             "chronological": None,
-            "torrent_clients": None,
+            "torrent_client": None,
         }
