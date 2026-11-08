@@ -54,6 +54,10 @@ def get_torrents(feed: Feed) -> List[Torrent]:
         )
         torrents.append(torrent)
 
+        if created:
+            torrent.feed.last_added = timezone.now()
+            torrent.feed.save()
+
     return torrents
 
 
@@ -91,11 +95,5 @@ def parse_feed(feed_id):
         return None
 
     torrents = get_torrents(feed)
-
-    if not torrents:
-        return None
-
-    feed.last_added = timezone.now()
-    feed.save()
 
     return torrents
